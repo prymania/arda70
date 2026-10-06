@@ -1,0 +1,4981 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "2.0.0",
+    "title": "ARDA67 API",
+    "description": "\n<b>/v1</b> : เส้นเดิมที่ front end ใช้อยู่<br>\n<b>/v2</b> : plang, subplang, activity, disaster, alert, community แบบ REST (id อยู่ใน path), ตรวจข้อมูลก่อนเข้า DB, HTTP status ตรงกับ code<br><br>\nกดปุ่ม <b>Authorize</b> แล้วใส่ token ที่ได้จาก /v1/auth/login (ช่อง refreshToken) ไม่ต้องพิมพ์คำว่า Bearer"
+  },
+  "servers": [
+    {
+      "url": "/",
+      "description": "server ที่เปิด /docs อยู่"
+    },
+    {
+      "url": "http://localhost:9981",
+      "description": "local (http)"
+    },
+    {
+      "url": "https://www.arda365days.com:9981",
+      "description": "cloud (https)"
+    }
+  ],
+  "paths": {
+    "/v1/admin/roles": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "get all roles name",
+        "description": "get all roles name <br>   ",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/v1/admin/users/all": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "get all USERS detail",
+        "description": "get all USERS detail <br>   ",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/v1/admin/users/search": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "search user by column",
+        "description": "search user by column <br>   ค้นหา USERS จากคอลัมน์นี้ โดย serch จากคอลัมน์ใดคอลัมน์หนึ่ง <br>  priority การ sarch ตามลำดับ<br>  ถ้าไม่ใส่ serch column มาเลย จะแสดงข้อมูล USERS ทุกคน (เหมือนเส้น admin/users/all)<br><br>  - username <br>   - name <br>   - phone <br>   - idcard <br>   - user_role <br>  - address_code  ",
+        "parameters": [
+          {
+            "name": "search_username",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search_name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search_phone",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search_idcard",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search_user_role",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search_address_code",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/admin/users/wait_for_approve": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "แสดง user ที่รอ admin approve",
+        "description": "แสดง user ที่รอ admin approve <br>   แสดง user ที่รอ admin approve กรณี user ระดับตำบลขึ้นไป <br>    ",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/v1/admin/users/user_detail": {
+      "put": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "update ข้อมูล User ",
+        "description": "update ข้อมูล User คนอื่น ๆ <br>  - ไม่ใช่เป็นการเพิ่ม user นะ แต่เป็นการ update ข้อมูล User  - เพิ่ม/แก้ไข ข้อมูล detail ของ user<br>  - ไม่สามารถเปลี่ยน username <br>  - ถ้าเปลี่ยน password ให้เรียกเส้น admin/users/reset_password<br>",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "search_username": {
+                    "example": "any"
+                  },
+                  "address_code": {
+                    "example": "any"
+                  },
+                  "title": {
+                    "example": "any"
+                  },
+                  "name": {
+                    "example": "any"
+                  },
+                  "surname": {
+                    "example": "any"
+                  },
+                  "email": {
+                    "example": "any"
+                  },
+                  "idcard": {
+                    "example": "any"
+                  },
+                  "gender": {
+                    "example": "any"
+                  },
+                  "birthday": {
+                    "example": "any"
+                  },
+                  "houseid": {
+                    "example": "any"
+                  },
+                  "moo": {
+                    "example": "any"
+                  },
+                  "village": {
+                    "example": "any"
+                  },
+                  "road": {
+                    "example": "any"
+                  },
+                  "subdistrict": {
+                    "example": "any"
+                  },
+                  "district": {
+                    "example": "any"
+                  },
+                  "province": {
+                    "example": "any"
+                  },
+                  "post": {
+                    "example": "any"
+                  },
+                  "phone": {
+                    "example": "any"
+                  },
+                  "info": {
+                    "example": "any"
+                  },
+                  "family_member": {
+                    "example": "any"
+                  },
+                  "education": {
+                    "example": "any"
+                  },
+                  "position": {
+                    "example": "any"
+                  },
+                  "company": {
+                    "example": "any"
+                  },
+                  "star_farmer": {
+                    "example": "any"
+                  },
+                  "consent": {
+                    "example": "any"
+                  },
+                  "user_role": {
+                    "example": "any"
+                  },
+                  "user_type": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/admin/users/reset_password": {
+      "put": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Change password",
+        "description": "<b>Change password ให้ user อื่น ๆ </b>",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "search_username": {
+                    "example": "any"
+                  },
+                  "new_password": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/admin/users/approve_user": {
+      "put": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "approve User ที่เป็นระดับตำบลขึ้นไป",
+        "description": "<b>approve User ที่เป็นระดับตำบลขึ้นไป</b>",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/admin/users": {
+      "delete": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Delete User ",
+        "description": "Delete User ลบ username อื่น เท่านั้น <br>   ",
+        "parameters": [
+          {
+            "name": "delete_username",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/admin/config": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "insert CONFIG_SYSTEM",
+        "description": "insert CONFIG_SYSTEM by keyid and value <br>   ",
+        "parameters": [
+          {
+            "name": "keyid",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      },
+      "put": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "update CONFIG_SYSTEM",
+        "description": "update value of CONFIG_SYSTEM by keyid <br>   ",
+        "parameters": [
+          {
+            "name": "keyid",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      },
+      "delete": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "delete CONFIG_SYSTEM",
+        "description": "delete CONFIG_SYSTEM by keyid <br>   ",
+        "parameters": [
+          {
+            "name": "keyid",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      },
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "search CONFIG_SYSTEM",
+        "description": "ค้นหา CONFIG_SYSTEM ด้วย keyid หรือ value<br> <br>     priority การค้นหาคือด้วย keyid , value หรือ ทั้งหมด<br> <br>   - ถ้าใส่ keyid จะค้นหาด้วย keyid เสมอ<br>   - ถ้าใส่ value จะค้นหาด้วย value<br>   - ถ้าไม่ใส่อะไรเลย จะแสดงข้อมูลทั้งหมด<br>   ",
+        "parameters": [
+          {
+            "name": "keyid",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/auth/register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Register เกษตรกร- ประชาชนทั่วไป",
+        "description": "Register new user <br>    <br> - user_role:   ROLE_GENERAL = 1 ผู้ใช้งานทั่วไป <br>  ROLE_FARMER = 2 เกษตกร<br>  ROLE_HEAD_CE = 3 หัวหน้าวิสาหกิจชุมชุน หรือ ผู้นำชุมชน<br>  ROLE_SUBDISTRICT_OFFICIER = 4 อบต. หรือ จนท ระดับตำบล<br>  ROLE_DISTRICT_OFFICER = 5 จนท. ระดับอำเภอ<br>  ROLE_PROVINCE_OFFICER = 6 จนท. ระดับจังหวัด<br>  ROLE_SE = 7 วิสาหกิจชุมชน<br>  ROLE_ADMIN = 9 admin<br>      <br>หลังจาก register แล้ว ต้องเรียก POST /v1/user/user_detail เพื่อเพิ่ม detail ให้ new user",
+        "parameters": [],
+        "responses": {},
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "example": "any"
+                  },
+                  "password": {
+                    "example": "any"
+                  },
+                  "user_role": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/register_staff": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Register เจ้าหน้าที่",
+        "description": "Register เจ้าหน้าที่ ใส่ user detail ไปด้วยเลย<br>   <br><br> -- ต้องส่ง address_code ที่ถูกต้องมาด้วย --  <br><br> - gender เป็น M, F, U  <br><br> - consent เป็น 0 ถ้ายังไม่ยินยอม หรือ 1 ถ้ายินยอม   <br><br> - user_role: ใส่เป็น array เช่น [4] <br>  ROLE_GENERAL = 1 ผู้ใช้งานทั่วไป <br>  ROLE_FARMER = 2 เกษตกร<br>  ROLE_HEAD_CE = 3 หัวหน้าวิสาหกิจชุมชุน หรือ ผู้นำชุมชน<br>  ROLE_SUBDISTRICT_OFFICIER = 4 อบต. หรือ จนท ระดับตำบล<br>  ROLE_DISTRICT_OFFICER = 5 จนท. ระดับอำเภอ<br>  ROLE_PROVINCE_OFFICER = 6 จนท. ระดับจังหวัด<br>  ROLE_SE = 7 วิสาหกิจชุมชน<br>  ROLE_ADMIN = 9 admin<br>   <br> ให้ใส่ detail เจ้าหน้าที่ไปในเส้นนี้เลย  <br> ดังนั้น ไม่จำเป็นต้องเรียก POST /v1/user/user_detail เพื่อเพิ่ม detail ให้ new user -- ต่างจาก register เกษตกร",
+        "parameters": [],
+        "responses": {},
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "example": "any"
+                  },
+                  "password": {
+                    "example": "any"
+                  },
+                  "user_role": {
+                    "example": "any"
+                  },
+                  "address_code": {
+                    "example": "any"
+                  },
+                  "title": {
+                    "example": "any"
+                  },
+                  "name": {
+                    "example": "any"
+                  },
+                  "surname": {
+                    "example": "any"
+                  },
+                  "email": {
+                    "example": "any"
+                  },
+                  "idcard": {
+                    "example": "any"
+                  },
+                  "gender": {
+                    "example": "any"
+                  },
+                  "birthday": {
+                    "example": "any"
+                  },
+                  "subdistrict": {
+                    "example": "any"
+                  },
+                  "district": {
+                    "example": "any"
+                  },
+                  "province": {
+                    "example": "any"
+                  },
+                  "post": {
+                    "example": "any"
+                  },
+                  "phone": {
+                    "example": "any"
+                  },
+                  "info": {
+                    "example": "any"
+                  },
+                  "position": {
+                    "example": "any"
+                  },
+                  "company": {
+                    "example": "any"
+                  },
+                  "consent": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Login",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginSuccess"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginSuccess"
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "example": "any"
+                  },
+                  "password": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/logout": {
+      "put": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Logout",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Token"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Token"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/reset_password": {
+      "put": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Change password",
+        "description": "<b>Change password </b>",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Token"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Token"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "new_password": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/user/user_detail": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "เพิ่ม/แก้ไข ข้อมูล User ทุกประเภท ",
+        "description": "เพิ่ม/แก้ไข ข้อมูล User ทุกประเภท <br>  <br>เพิ่ม/แก้ไข ข้อมูล detail ไม่แก้ username/password แต่ต้องส่ง username/password มาด้วย",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "address_code": {
+                    "example": "any"
+                  },
+                  "password": {
+                    "example": "any"
+                  },
+                  "title": {
+                    "example": "any"
+                  },
+                  "name": {
+                    "example": "any"
+                  },
+                  "surname": {
+                    "example": "any"
+                  },
+                  "email": {
+                    "example": "any"
+                  },
+                  "idcard": {
+                    "example": "any"
+                  },
+                  "gender": {
+                    "example": "any"
+                  },
+                  "birthday": {
+                    "example": "any"
+                  },
+                  "houseid": {
+                    "example": "any"
+                  },
+                  "moo": {
+                    "example": "any"
+                  },
+                  "village": {
+                    "example": "any"
+                  },
+                  "road": {
+                    "example": "any"
+                  },
+                  "subdistrict": {
+                    "example": "any"
+                  },
+                  "district": {
+                    "example": "any"
+                  },
+                  "province": {
+                    "example": "any"
+                  },
+                  "post": {
+                    "example": "any"
+                  },
+                  "phone": {
+                    "example": "any"
+                  },
+                  "info": {
+                    "example": "any"
+                  },
+                  "family_member": {
+                    "example": "any"
+                  },
+                  "education": {
+                    "example": "any"
+                  },
+                  "position": {
+                    "example": "any"
+                  },
+                  "company": {
+                    "example": "any"
+                  },
+                  "star_farmer": {
+                    "example": "any"
+                  },
+                  "consent": {
+                    "example": "any"
+                  },
+                  "user_role": {
+                    "example": "any"
+                  },
+                  "user_type": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/user/star_farmer": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "แก้ไขสถานะ star_farmer ของ User ",
+        "description": "แก้ไขสถานะ star_farmer ของ User <br><br>   คนที่เรียกได้ต้องเป็นระดับ ผู้นำ/หัวหน้า ขึ้นไปเปลี่ยนให้ user อื่น <br>  -ส่ง search_username เพื่อเปลี่ยนสถานะให้คนอื่น <br>  -ถ้า ไม่มี search_username จะเปลี่ยนสถานะให้ตัวเองเป็น star <br>  star: เป็น 1 หรือ 0  ",
+        "parameters": [
+          {
+            "name": "search_username",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "star",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/user/user_consent": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "แก้ไขสถานะ consent ของ User ",
+        "description": "แก้ไขสถานะ consent ของ User <br>  ",
+        "parameters": [
+          {
+            "name": "consent",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/user/user_picture": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "เพิ่ม/แก้ไข รูปภาพ User ",
+        "description": "เพิ่ม/แก้ไข รูปภาพ User <br>  ",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/FileUpload"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/user/": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "แสดงข้อมูลของ user",
+        "description": "แสดงข้อมูลของ user <br><br>  <br> ถ้า user_role มีเป็น 3 หรือ 4 ให้เรียกเส้นเพิ่มเพื่อดูว่าเป็นหัวหน้าวิสาหกิจ หรือ ชุมชนใด  <br> role 3 - หัวหน้าสหกิจชุมชน  <br> role 4 - ผู้นำชุมชน  <br> <br>   search_username - ส่งมาถ้าต้องการดู detail ของคนอื่น (เช่นหัวหน้า ดูข้อมูลเกษตรกร) <br>  ถ้าไม่ส่ง search_username มา จะดูข้อมูลของตัวเอง  ",
+        "parameters": [
+          {
+            "name": "search_username",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/user/head_ce": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "แสดงว่า username นี้เป็นหัวหน้า วิสาหกิจชุมชน ใดบ้าง (CommunityEnterprise)",
+        "description": "แสดงว่า username นี้เป็นหัวหน้า วิสาหกิจชุมชน ใดบ้าง (CommunityEnterprise) <br><br>  <br> user_role ต้องมีเป็น 3 ด้วย  <br> role 3 - หัวหน้าวิสาหกิจชุมชน   <br> ถ้าไม่ใส่ search_username มา จะดูว่าตัวเองเป็นหัวหน้า วิสาหกิจชุมชนใด  <br> ถ้าใส่ search_username มา จะดูว่า search_username นั้นเป็นหัวหน้า วิสาหกิจใด  ",
+        "parameters": [
+          {
+            "name": "search_username",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/user/head_community": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "แสดงว่า username นี้เป็นหัวหน้า ชุมชน ใดบ้าง (Community)",
+        "description": "แสดงว่า username นี้เป็นหัวหน้า ชุมชน ใดบ้าง (Community) <br><br>  <br> user_role ต้องมีเป็น 4 ด้วย  <br> role 4 - ผู้นำชุมชน<br>  <br> ถ้าไม่ใส่ search_username มา จะดูว่าตัวเองเป็นหัวหน้า ชุมชนใด  <br> ถ้าใส่ search_username มา จะดูว่า search_username นั้นเป็นหัวหน้าชุมชนใด  ",
+        "parameters": [
+          {
+            "name": "search_username",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/user/ce": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "แสดงว่า username นี้เป็นสมาชิก CommunityEnterprise ใดบ้าง",
+        "description": "แสดงว่า username นี้เป็นสมาชิก CommunityEnterprise ใดบ้าง<br><br>  <br> ถ้าไม่ใส่ search_username มา จะดูว่าตัวเองเป็นสมาชิก CommunityEnterprise ใด  <br> ถ้าใส่ search_username มา จะดูว่า search_username นั้นเป็นสมาชิก CommunityEnterprise ใด   ",
+        "parameters": [
+          {
+            "name": "search_username",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/user/community": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "แสดงว่า username นี้เป็นสมาชิก Community ใดบ้าง",
+        "description": "แสดงว่า username นี้เป็นสมาชิก Community ใดบ้าง<br><br>  <br>  <br> ถ้าไม่ใส่ search_username มา จะดูว่าตัวเองเป็นสมาชิก Community ใด  <br> ถ้าใส่ search_username มา จะดูว่า search_username นั้นเป็นสมาชิก Community ใด   ",
+        "parameters": [
+          {
+            "name": "search_username",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/user/username": {
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Delete User - for dev only",
+        "description": "Delete User ลบ username อื่น เท่านั้น <br>   ",
+        "parameters": [
+          {
+            "name": "delete_username",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/community/": {
+      "post": {
+        "tags": [
+          "Community"
+        ],
+        "summary": "เพิ่ม community (ชุมชน) ใหม่",
+        "description": "เพิ่ม community (ชุมชน) ใหม่ <br>  <br> head_user คือ user_name ของคนที่เป็นหัวหน้าชุมชน",
+        "parameters": [
+          {
+            "name": "community_name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "head_user",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/community/community_id": {
+      "get": {
+        "tags": [
+          "Community"
+        ],
+        "summary": "ดูข้อมูล community (ชุมชน) by community_id ",
+        "description": "ดูข้อมูล community (ชุมชน) <br>  <br> ข้อมูลที่เกี่ยวกับชุมชน คือ หัวหน้า ที่ตั้ง ... ",
+        "parameters": [
+          {
+            "name": "community_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/community/member/community_id": {
+      "get": {
+        "tags": [
+          "Community"
+        ],
+        "summary": "ดูข้อมูล สมาชิกcommunity (ชุมชน) by community_id ",
+        "description": "ดูข้อมูล สมาชิกcommunity (ชุมชน) <br>  <br> แสดง username ที่เป็นสมาชิกของชุมชนนี้ ... ",
+        "parameters": [
+          {
+            "name": "community_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/plang/": {
+      "post": {
+        "tags": [
+          "Plang"
+        ],
+        "summary": "เพิ่ม ข้อมูลแปลงของเกษตกร User ",
+        "description": "เพิ่ม ข้อมูลแปลงของเกษตกร (ของตัวเอง) <br><br>    === กรณีของ address_code === <br>  คิดเผื่ออนาคตว่า อาจจะมีแปลงที่ ที่อยู่ ไม่เหมือนกับ ที่อยู่เกษตรกร <br>  ทำให้ address_code ของแปลง ไม่เหมือนกับของเกษตรกร <br>  ดังนั้น ถ้ามีการใส่ทึ่อยู่แปลง ให้ส่ง plang_address_code มาด้วย <br>  แต่ถ้าไม่ส่ง plang_address_code มา จะใช้ address_code เดียวกับเกษตรกร <br><br>    <br> own_type เก็บเป็นข้อความเลย ไม่ได้เก็บแยก table  <br> water_supply และ water_source เก็บแยก table  <br> ดังนั้นต้องเรียกเส้นแยกเพื่อเพิ่มข้อมูล water_supply, water_source  ",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "plang_address_code": {
+                    "example": "any"
+                  },
+                  "lat_long": {
+                    "example": "any"
+                  },
+                  "center": {
+                    "example": "any"
+                  },
+                  "msquare": {
+                    "example": "any"
+                  },
+                  "rai": {
+                    "example": "any"
+                  },
+                  "ngan": {
+                    "example": "any"
+                  },
+                  "wa": {
+                    "example": "any"
+                  },
+                  "moo": {
+                    "example": "any"
+                  },
+                  "village": {
+                    "example": "any"
+                  },
+                  "road": {
+                    "example": "any"
+                  },
+                  "subdistrict": {
+                    "example": "any"
+                  },
+                  "district": {
+                    "example": "any"
+                  },
+                  "province": {
+                    "example": "any"
+                  },
+                  "plang_name": {
+                    "example": "any"
+                  },
+                  "title_deed": {
+                    "example": "any"
+                  },
+                  "own_type": {
+                    "example": "any"
+                  },
+                  "detail": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Plang"
+        ],
+        "summary": "select ข้อมูลแปลงของ User ด้วย username, search_username, plang_id",
+        "description": "select ข้อมูลแปลงของ User ด้วย username, search_username, plang_id<br>  ค้นหาข้อมูล Plang โดย search จากคอลัมน์ที่กำหนดได้อย่างใดอย่างหนึ่งเท่านั้น คือ<br><br>    - search_username : แสดงแปลงทั้งหมดของ search_username (user คนอื่น) <br>  - search_plang_id : แสดงข้อมูลของแปลง plang_id นี้ <br>  - ถ้าไม่มี search จะแสดงข้อมูลแปลงทั้งหมดของ user ตัวเอง<br>",
+        "parameters": [
+          {
+            "name": "search_username",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search_plang_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/plang/water_supply": {
+      "post": {
+        "tags": [
+          "Plang"
+        ],
+        "summary": "เพิ่ม ข้อมูล Water Supply (แหล่งน้ำ) by plang_id",
+        "description": "เพิ่ม ข้อมูล Water Supply by plang_id<br>    <br> เพิ่ม water supply ได้ทีละอย่าง   <br> supply_type มีได้แค่ 2 อย่างคือ บ่อจิ๋ว หรือ น้ำบาดาล (เท่าเป็น drop down ให้เลือก)  ",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "plang_id": {
+                    "example": "any"
+                  },
+                  "supply_type": {
+                    "example": "any"
+                  },
+                  "width": {
+                    "example": "any"
+                  },
+                  "depth": {
+                    "example": "any"
+                  },
+                  "water_depth": {
+                    "example": "any"
+                  },
+                  "detail": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Plang"
+        ],
+        "summary": "Delete ข้อมูล water supply(แหล่งน้ำของตัวเอง) by wid ",
+        "description": "Delete ข้อมูล water supply by wid <br>",
+        "parameters": [
+          {
+            "name": "wid",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/plang/water_source": {
+      "post": {
+        "tags": [
+          "Plang"
+        ],
+        "summary": "เพิ่ม ข้อมูล Water Source (แหล่งน้ำธรรมชาติ)by plang_id",
+        "description": "เพิ่ม ข้อมูล Water Source by plang_id<br>    <br> เพิ่ม water source ได้ทีละอย่าง   <br> source_type เป้นอะไรก็ได้ เช่น ห้วย หนอง คลอง บึง แม่น้ำ   ",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "plang_id": {
+                    "example": "any"
+                  },
+                  "source_type": {
+                    "example": "any"
+                  },
+                  "source_name": {
+                    "example": "any"
+                  },
+                  "width": {
+                    "example": "any"
+                  },
+                  "depth": {
+                    "example": "any"
+                  },
+                  "water_depth": {
+                    "example": "any"
+                  },
+                  "detail": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Plang"
+        ],
+        "summary": "Delete ข้อมูล water source(แหล่งน้ำธรรมชาติ) by wid ",
+        "description": "Delete ข้อมูล water source by wid <br>",
+        "parameters": [
+          {
+            "name": "wid",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/plang/picture/plang_id": {
+      "post": {
+        "tags": [
+          "Plang"
+        ],
+        "summary": "เพิ่มรูปภาพแปลง by plang_id ",
+        "description": "เพิ่มรูปภาพแปลง by plang_id <br>  ",
+        "parameters": [
+          {
+            "name": "plang_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "detail",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/FileUpload"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Plang"
+        ],
+        "summary": "select รูปภาพของแปลง by plang_id ",
+        "description": "select รูปภาพของแปลง by plang_id <br>",
+        "parameters": [
+          {
+            "name": "plang_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/plang/plang_id": {
+      "put": {
+        "tags": [
+          "Plang"
+        ],
+        "summary": "edit ข้อมูลแปลงของเกษตกร by plang_id ",
+        "description": "edit ข้อมูลแปลงของเกษตกร <br>  <br><br>  --หมายเหตุ ทิ้ง ๆ ไว้หน่อย ถ้าต่อไปมีแบบ ที่อยู่แปลง ไม่เหมือนที่อยู่ user จะต้องส่ง address_code มา-- <br>  แต่ตอนนี้ ไม่ต้องส่งมา เพื่อป้องกัน address_code ผิดพลาด <br>  (ใช้ address_code จาก JWT)",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "plang_id": {
+                    "example": "any"
+                  },
+                  "lat_long": {
+                    "example": "any"
+                  },
+                  "center": {
+                    "example": "any"
+                  },
+                  "msquare": {
+                    "example": "any"
+                  },
+                  "rai": {
+                    "example": "any"
+                  },
+                  "ngan": {
+                    "example": "any"
+                  },
+                  "wa": {
+                    "example": "any"
+                  },
+                  "moo": {
+                    "example": "any"
+                  },
+                  "village": {
+                    "example": "any"
+                  },
+                  "road": {
+                    "example": "any"
+                  },
+                  "subdistrict": {
+                    "example": "any"
+                  },
+                  "district": {
+                    "example": "any"
+                  },
+                  "province": {
+                    "example": "any"
+                  },
+                  "plang_name": {
+                    "example": "any"
+                  },
+                  "title_deed": {
+                    "example": "any"
+                  },
+                  "own_type": {
+                    "example": "any"
+                  },
+                  "detail": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Plang"
+        ],
+        "summary": "Delete ข้อมูลแปลงของเกษตกร by plang_id ",
+        "description": "Delete ข้อมูลแปลงของเกษตกร by plang_id <br>",
+        "parameters": [
+          {
+            "name": "plang_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/plang/picture_id": {
+      "delete": {
+        "tags": [
+          "Plang"
+        ],
+        "summary": "Delete plang picture by picture_id ",
+        "description": "Delete plang picture by picture_id <br>",
+        "parameters": [
+          {
+            "name": "picture_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/plang/water_supply/plang_id": {
+      "get": {
+        "tags": [
+          "Plang"
+        ],
+        "summary": "select ข้อมูล water_supply by plang_id",
+        "description": "select ข้อมูล water_supply by plang_id<br>  <br>",
+        "parameters": [
+          {
+            "name": "plang_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/plang/water_source/plang_id": {
+      "get": {
+        "tags": [
+          "Plang"
+        ],
+        "summary": "select ข้อมูล water_source by plang_id",
+        "description": "select ข้อมูล water_source by plang_id<br>  <br>",
+        "parameters": [
+          {
+            "name": "plang_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/plang/soil_meter/plang_id": {
+      "post": {
+        "tags": [
+          "Plang"
+        ],
+        "summary": "เพิ่มข้อมูล SoilMeter ข้อมูลดินจากเสาวัด by plang_id",
+        "description": "เพิ่ม ข้อมูล SoilMeter ข้อมูลดินจากเสาวัด by plang_id<br>    <br> เพิ่มข้อมูลดิน 7 ค่า จากที่อ่านได้จากเสาวัด คือ soil, t, ph, ec, n, p, k  <br> detail เผื่ออยากใส่ข้อมูลอื่น ๆ  ",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "plang_id": {
+                    "example": "any"
+                  },
+                  "soil": {
+                    "example": "any"
+                  },
+                  "t": {
+                    "example": "any"
+                  },
+                  "ph": {
+                    "example": "any"
+                  },
+                  "ec": {
+                    "example": "any"
+                  },
+                  "n": {
+                    "example": "any"
+                  },
+                  "p": {
+                    "example": "any"
+                  },
+                  "k": {
+                    "example": "any"
+                  },
+                  "detail": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Plang"
+        ],
+        "summary": "select ข้อมูล SOIL METER ด้วย plang_id",
+        "description": "select ข้อมูล SOIL METER ด้วย plang_id<br>  แสดงข้อมูล soil meter ทั้งหมดของ plang_id นั้น ๆ เรียงลำดับที่ใหม่ที่สุด<br><br>  ",
+        "parameters": [
+          {
+            "name": "search_plang_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/subplang/plang_id": {
+      "post": {
+        "tags": [
+          "Subplang"
+        ],
+        "summary": "เพิ่ม ข้อมูล subplang ลง plang_id นี้",
+        "description": "เพิ่ม ข้อมูล subplang ภายใต้ plang_id <br>",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "plang_id": {
+                    "example": "any"
+                  },
+                  "lat_long": {
+                    "example": "any"
+                  },
+                  "center": {
+                    "example": "any"
+                  },
+                  "msquare": {
+                    "example": "any"
+                  },
+                  "rai": {
+                    "example": "any"
+                  },
+                  "ngan": {
+                    "example": "any"
+                  },
+                  "wa": {
+                    "example": "any"
+                  },
+                  "detail": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/subplang/picture/subplang_id": {
+      "post": {
+        "tags": [
+          "Subplang"
+        ],
+        "summary": "เพิ่มรูปภาพ subplang by subplang_id ",
+        "description": "เพิ่มรูปภาพsubplang by subplang_id <br>",
+        "parameters": [
+          {
+            "name": "subplang_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "detail",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/FileUpload"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Subplang"
+        ],
+        "summary": "select รูปภาพของ subplang by subplang_id ",
+        "description": "select รูปภาพของsubplang by subplang_id <br>",
+        "parameters": [
+          {
+            "name": "subplang_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/subplang/subplang_id": {
+      "put": {
+        "tags": [
+          "Subplang"
+        ],
+        "summary": "edit ข้อมูล subplang by subplang_id ",
+        "description": "edit ข้อมูล subplang by subplang_id <br>",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "subplang_id": {
+                    "example": "any"
+                  },
+                  "lat_long": {
+                    "example": "any"
+                  },
+                  "center": {
+                    "example": "any"
+                  },
+                  "msquare": {
+                    "example": "any"
+                  },
+                  "rai": {
+                    "example": "any"
+                  },
+                  "ngan": {
+                    "example": "any"
+                  },
+                  "wa": {
+                    "example": "any"
+                  },
+                  "detail": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Subplang"
+        ],
+        "summary": "Delete ข้อมูล subplang ของเกษตกร by subplang_id ",
+        "description": "Delete ข้อมูล subplangของเกษตกร by subplang_id <br>",
+        "parameters": [
+          {
+            "name": "subplang_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/subplang/picture_id": {
+      "delete": {
+        "tags": [
+          "Subplang"
+        ],
+        "summary": "Delete subplang picture by picture_id ",
+        "description": "Delete subplang picture by picture_id <br>",
+        "parameters": [
+          {
+            "name": "picture_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/subplang/": {
+      "get": {
+        "tags": [
+          "Subplang"
+        ],
+        "summary": "แสดงข้อมูล subplang ด้วย username, plang_id, subplang_id ",
+        "description": "แสดงข้อมูล subplang ด้วย username, plang_id, subplang_id <br>  ค้นหาข้อมูล subplang โดย search จากคอลัมน์ที่กำหนดได้อย่างใดอย่างหนึ่งเท่านั้น คือ<br>  <br>   - search_username: ถ้าต้องการแสดง subplang ของ serch_username<br>  - search_plang_id : ถ้าต้องการแสดงว่า แปลง นี้มี subplang อะไรบ้าง <br>  - search_subplang_id : ถ้าต้องการข้อมูลของ subplang_id นั้น <br>  - ถ้าไม่ส่ง search มาเลย จะแสดง subplang ของ userคนนี้ที่ login อยู่<br><br>  คิดว่าที่จะได้ใช้จริง ๆ คือ search_plang_id เพื่อแสดงข้อมู subplang ของแปลงนั้น ๆ  ",
+        "parameters": [
+          {
+            "name": "search_username",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search_plang_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search_subplang_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/subplang/count_activity/subplang_id/{subplang_id}": {
+      "get": {
+        "tags": [
+          "Subplang"
+        ],
+        "summary": "นับจำนวน activity by Subplang_id (ปลูกพืช, เลี้ยงสัตว์)",
+        "description": "นับจำนวน activity by Subplang_id (ปลูกพืช, เลี้ยงสัตว์) <br>",
+        "parameters": [
+          {
+            "name": "subplang_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/activity/plang_id": {
+      "post": {
+        "tags": [
+          "Activity"
+        ],
+        "summary": "เพิ่ม ข้อมูล activity (การเพาะปลูก/เลี้ยงสัตว์) ของแปลงเกษตร ",
+        "description": "เพิ่ม ข้อมูล activity (การเพาะปลูก/เลี้ยงสัตว์) ของแปลงเกษตร <br><br>  - ต้องระบุ plang_id เสมอ <br>  - subplang_id ใส่กรณีที่เพิ่ม activity ลงบน subplang ถ้าไม่ใส่ จะให้ค่า subplang_id เป็น null   โดย plang_id, subplant_id ต้องสัมพันธ์กัน<br>  <br>  type1, type2, type3 ได้จากข้อมูลกิจกรรม 3 ระดับเช่น ประมงน้ำจืด --> ปลา --> ปลาทับทิม<br><br>   pattern, unit ได้จากตอนเรียก API - type3 <br>  ข้อมูล pattern คือ<br>  1 - พื้นที่อย่างเดียว <br>  2 - จำนวนอย่างเดียว <br>  3 - ทั้งพื้นที่และจำนวน <br>  4 - จำนวนบ่อ และจำนวนตัวต่อบ่อ (สำหรับ type1 - ประมงน้ำจืด) <br><br>    pond, amount_per_pond : ถ้า pattern เป็น 4 (ประมง) ให้ส่ง 2 ค่านี้ และ amount <br>  UI - พอ user ใส่ บ่อ และจำนวนต่อบ่อ ให้แสดง จำนวนปลาทั้งหมด(amount) ด้วย และส่ง amount มาด้วย <br>  amount: ถ้า pattern เป็น 2, 3 ต้องส่ง amount มาด้วย <br><br><br>   **** หมายเหตุ ****<br>  ข้อมูลมันเก็บแตกต่างกัน ดังนั้นน่าจะส่งมาทุกคอลัมน์เลย อันไหนไม่มีก็ส่ง0 มา เช่น<br>  ถ้าปลูกข้าว ไม่มี amount แต่ก็ส่ง amount เป็น 0 มาเลย น่าจะสะดวกกว่า<br>  <br>  ",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "plang_id": {
+                    "example": "any"
+                  },
+                  "subplang_id": {
+                    "example": "any"
+                  },
+                  "type1": {
+                    "example": "any"
+                  },
+                  "type2": {
+                    "example": "any"
+                  },
+                  "type3": {
+                    "example": "any"
+                  },
+                  "pattern": {
+                    "example": "any"
+                  },
+                  "rai": {
+                    "example": "any"
+                  },
+                  "ngan": {
+                    "example": "any"
+                  },
+                  "wa": {
+                    "example": "any"
+                  },
+                  "pond": {
+                    "example": "any"
+                  },
+                  "amount_per_pond": {
+                    "example": "any"
+                  },
+                  "amount": {
+                    "example": "any"
+                  },
+                  "unit": {
+                    "example": "any"
+                  },
+                  "start_date": {
+                    "example": "any"
+                  },
+                  "end_date": {
+                    "example": "any"
+                  },
+                  "detail": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/activity/picture/activity_id": {
+      "post": {
+        "tags": [
+          "Activity"
+        ],
+        "summary": "เพิ่มรูปภาพ activity by activity_id ",
+        "description": "เพิ่มรูปภาพ activity by activity_id ",
+        "parameters": [
+          {
+            "name": "activity_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "detail",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/FileUpload"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Activity"
+        ],
+        "summary": "select รูปภาพของ Activity by activity_id ",
+        "description": "select รูปภาพของ Activity by activity_id <br>",
+        "parameters": [
+          {
+            "name": "activity_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/activity/activity_id": {
+      "put": {
+        "tags": [
+          "Activity"
+        ],
+        "summary": "แก้ไขข้อมูล activity (การเพาะปลูก/เลี้ยงสัตว์) ของแปลงเกษตร ",
+        "description": "แก้ไขข้อมูล activity (การเพาะปลูก/เลี้ยงสัตว์) ของแปลงเกษตร <br>  ใช้แก้ไข กรณีใส่ข้อมูลผิด แล้วอยากแก้ไข หรืออาจจะใส่วันสิ้นสุด activity หรืออื่น ๆ  <br> ไม่ต้องส่ง plang_id, subplang_id มา เพราะเป็นการแก้ไข activity detail (คือแก้กิจกรรมบนแปลงเดิม)  <br> ไม่ต้องส่ง action มา เพราะเป็นการแก้ไข activity detail คงไม่มีการแก้จากปลูกข้าวเป็นเผาถ่าน  <br> กรณีแบบนั้น ให้ลบทิ้งเพิ่มใหม่  ",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "activity_id": {
+                    "example": "any"
+                  },
+                  "type1": {
+                    "example": "any"
+                  },
+                  "type2": {
+                    "example": "any"
+                  },
+                  "type3": {
+                    "example": "any"
+                  },
+                  "pattern": {
+                    "example": "any"
+                  },
+                  "rai": {
+                    "example": "any"
+                  },
+                  "ngan": {
+                    "example": "any"
+                  },
+                  "wa": {
+                    "example": "any"
+                  },
+                  "pond": {
+                    "example": "any"
+                  },
+                  "amount_per_pond": {
+                    "example": "any"
+                  },
+                  "amount": {
+                    "example": "any"
+                  },
+                  "unit": {
+                    "example": "any"
+                  },
+                  "start_date": {
+                    "example": "any"
+                  },
+                  "end_date": {
+                    "example": "any"
+                  },
+                  "detail": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Activity"
+        ],
+        "summary": "delete activity by activity_id ",
+        "description": "delete activity by activity_id <br>",
+        "parameters": [
+          {
+            "name": "activity_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/activity/picture_id": {
+      "delete": {
+        "tags": [
+          "Activity"
+        ],
+        "summary": "Delete Activity picture by picture_id ",
+        "description": "Delete Activity picture by picture_id <br>",
+        "parameters": [
+          {
+            "name": "picture_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/activity/": {
+      "get": {
+        "tags": [
+          "Activity"
+        ],
+        "summary": "select ข้อมูล activity by username, plang_id, subplang_id, activity_id ",
+        "description": "select ข้อมูล activity by username, plang_id, subplang_id, activity_id <br>  <br> ** ใช้ JWT ต่างจากของเดิม <br>  ค้นหาข้อมูล activity โดย search จากคอลัมน์ที่กำหนดได้อย่างใดอย่างหนึ่งเท่านั้น ตาม priority คือ<br>  search_username : ถ้าต้องการแสดงว่า username มี activity อะไรบ้าง (คือแสดงของ user คนอื่น) <br>  search_plang_id : ถ้าต้องการแสดงว่า แปลง นี้มี activity อะไรบ้าง <br>  search_subplang_id : ถ้าต้องการแสดงว่า subplang นี้มี activity อะไรบ้าง<br>  search_activity_id : ถ้าต้องการแสดงรายละเอียด activity_id นี้คืออะไร <br>  ถ้าไม่ใส่อะไรมาเลย จะแสดงว่า user ตัวเอง มี activity อะไรบ้าง <br>  <br>",
+        "parameters": [
+          {
+            "name": "search_username",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search_plang_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search_subplang_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search_activity_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/activity/master/type1": {
+      "get": {
+        "tags": [
+          "Activity"
+        ],
+        "summary": "select ข้อมูล ACTIVITY_MASTER type1",
+        "description": "select ข้อมูล ACTIVITY_MASTER type1<br>   เพื่อเอาไปแสดงบน drop down<br>  ข้อมูล type1 มี <br>  ข้าว<br>  ผัก/สมุนไพร<br>  พืชไร่<br>  พืชสวน<br>  ปศุสัตว์<br>  ประมงน้ำจืด<br>",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/v1/activity/master/type2": {
+      "get": {
+        "tags": [
+          "Activity"
+        ],
+        "summary": "select ข้อมูล ACTIVITY_MASTER type2",
+        "description": "select ข้อมูล ACTIVITY_MASTER type2<br>   หลังจากเลือก type1 แล้ว เรียกเส้นนี้ เพื่อเอาไปแสดงบน drop down<br>  ต้องส่ง type1 มา เพื่อจะได้ประเภทย่อย เช่น ประมงน้ำจืด --> ปลา<br>",
+        "parameters": [
+          {
+            "name": "type1",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/activity/master/type3": {
+      "get": {
+        "tags": [
+          "Activity"
+        ],
+        "summary": "select ข้อมูล ACTIVITY_MASTER type3",
+        "description": "select ข้อมูล ACTIVITY_MASTER type3<br>   หลังจากเลือก type2 แล้ว เรียกเส้นนี้ เพื่อเอาไปแสดงบน drop down<br>  ต้องส่ง type2 มา เพื่อจะได้ประเภทย่อย เช่น ประมงน้ำจืด --> ปลา --> ปลาทับทิม<br><br>  return type3, pattern, unit ไปด้วย เพื่อเอาไปแยกบน UI ว่าจะแสดงอะไร โดย <br>  pattern <br>  ข้อมูล pattern คือ<br>  1 - พื้นที่อย่างเดียว <br>  2 - จำนวนอย่างเดียว <br>  3 - ทั้งพื้นที่และจำนวน <br>  4 - จำนวนบ่อ และจำนวนตัวต่อบ่อ (สำหรับ type1 - ประมงน้ำจืด) <br><br>   unit คือลักษณะนาม เช่น ตัว ต้น กอ ถาด ถ้าอันไหนไม่มี unit แสดงว่าเป็นพื้นที่เฉย ๆ <br>    ",
+        "parameters": [
+          {
+            "name": "type2",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/action/steps": {
+      "get": {
+        "tags": [
+          "Action"
+        ],
+        "summary": "โหลดรายการ action ตาม parent_id",
+        "description": "ใช้สำหรับ mobile app เพื่อโหลด Step1 → Step2 → Step3 <br>  - ถ้าไม่ส่ง parent_id = โหลด Step1 <br>  - ถ้าส่ง parent_id = โหลด children ของ action นั้น <br>",
+        "parameters": [
+          {
+            "name": "parent_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "action_type",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/action/master": {
+      "get": {
+        "tags": [
+          "ActionMaster"
+        ],
+        "summary": "โหลด action master ทั้งหมด",
+        "description": "โหลดรายการ action จาก ACTION_MASTER ทั้งหมด <br>",
+        "parameters": [],
+        "responses": {}
+      },
+      "post": {
+        "tags": [
+          "ActionMaster"
+        ],
+        "summary": "เพิ่ม action master ใหม่",
+        "description": "เพิ่มข้อมูล action ใหม่ใน ACTION_MASTER <br>",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "action_type": {
+                    "example": "any"
+                  },
+                  "step": {
+                    "example": "any"
+                  },
+                  "name": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/action/master/{action_id}": {
+      "put": {
+        "tags": [
+          "ActionMaster"
+        ],
+        "summary": "แก้ไขข้อมูล action master",
+        "description": "แก้ไข action เช่นชื่อไทย หรือ step <br>",
+        "parameters": [
+          {
+            "name": "action_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "action_type": {
+                    "example": "any"
+                  },
+                  "step": {
+                    "example": "any"
+                  },
+                  "name": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ActionMaster"
+        ],
+        "summary": "ลบ action master",
+        "description": "ลบ action จาก ACTION_MASTER ตาม action_id <br>",
+        "parameters": [
+          {
+            "name": "action_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/action/flow": {
+      "post": {
+        "tags": [
+          "ActionFlow"
+        ],
+        "summary": "เพิ่มความสัมพันธ์ parent → child",
+        "description": "เพิ่ม mapping ของ tree เช่น Step1 → Step2 <br>",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "parent_action_id": {
+                    "example": "any"
+                  },
+                  "child_action_id": {
+                    "example": "any"
+                  },
+                  "action_type": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ActionFlow"
+        ],
+        "summary": "ลบความสัมพันธ์ parent → child",
+        "description": "ลบ mapping parent-child จาก ACTION_FLOW <br>",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "parent_action_id": {
+                    "example": "any"
+                  },
+                  "child_action_id": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/action/flow/children/{action_id}": {
+      "get": {
+        "tags": [
+          "ActionFlow"
+        ],
+        "summary": "โหลด children ของ action ตาม action_id",
+        "description": "ใช้ดูความสัมพันธ์ parent → child <br>",
+        "parameters": [
+          {
+            "name": "action_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/action/log": {
+      "post": {
+        "tags": [
+          "ActionLog"
+        ],
+        "summary": "เพิ่มประวัติการทำ action",
+        "description": "เก็บประวัติว่า user ทำ action ไหน วันไหน <br>",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "activity_id": {
+                    "example": "any"
+                  },
+                  "action_id": {
+                    "example": "any"
+                  },
+                  "step": {
+                    "example": "any"
+                  },
+                  "start_date": {
+                    "example": "any"
+                  },
+                  "end_date": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/action/log/{log_id}": {
+      "put": {
+        "tags": [
+          "ActionLog"
+        ],
+        "summary": "อัปเดตประวัติการทำ action",
+        "description": "เช่น ตั้ง end_date เมื่อผู้ใช้ทำงานเสร็จ <br>",
+        "parameters": [
+          {
+            "name": "log_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "end_date": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ActionLog"
+        ],
+        "summary": "ลบประวัติการทำ action",
+        "description": "ลบ record log ตาม log_id <br>",
+        "parameters": [
+          {
+            "name": "log_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/action/log/activity/{activity_id}": {
+      "get": {
+        "tags": [
+          "ActionLog"
+        ],
+        "summary": "โหลดประวัติ action ตาม activity_id",
+        "description": "ดูว่าผู้ใช้ทำ activity อะไรไปแล้วบ้างในแปลงนี้ <br>",
+        "parameters": [
+          {
+            "name": "activity_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/action/{action_id}": {
+      "get": {
+        "tags": [
+          "Action"
+        ],
+        "summary": "โหลดข้อมูล action ตาม action_id",
+        "description": "โหลดข้อมูล action เช่น ชื่อ, step, parent เป็นต้น <br>",
+        "parameters": [
+          {
+            "name": "action_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/disaster/plang_id": {
+      "post": {
+        "tags": [
+          "Disaster"
+        ],
+        "summary": "เพิ่ม ข้อมูล Disaster (ภัยแล้ง, น้ำท่วม, โรคพืช, อื่น ๆ) ลงแปลงเกษตร by plang_id",
+        "description": "เพิ่ม ข้อมูล Disaster ของแปลงเกษตร <br>",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "plang_id": {
+                    "example": "any"
+                  },
+                  "category": {
+                    "example": "any"
+                  },
+                  "type": {
+                    "example": "any"
+                  },
+                  "affect": {
+                    "example": "any"
+                  },
+                  "start_date": {
+                    "example": "any"
+                  },
+                  "end_date": {
+                    "example": "any"
+                  },
+                  "size": {
+                    "example": "any"
+                  },
+                  "unit": {
+                    "example": "any"
+                  },
+                  "detail": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/disaster/picture/disaster_id": {
+      "post": {
+        "tags": [
+          "Disaster"
+        ],
+        "summary": "เพิ่มรูปภาพ disaster by disaster_id ",
+        "description": "เพิ่มรูปภาพ disaster by disaster_id <br>  <br>",
+        "parameters": [
+          {
+            "name": "disaster_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "detail",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/FileUpload"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Disaster"
+        ],
+        "summary": "select รูปภาพของ Disaster by disaster_id ",
+        "description": "select รูปภาพของ Disaster by disaster_id <br>",
+        "parameters": [
+          {
+            "name": "disaster_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/disaster/disaster_id": {
+      "put": {
+        "tags": [
+          "Disaster"
+        ],
+        "summary": "แก้ไข Disaster by disaster_id ",
+        "description": "แก้ไช Disaster by disaster_id <br>  เผื่อต้องแก้ไขข้อมูล เช่น วันที่สิ้นสุดภัยพิบัติ หรือ detail or whatever",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "disaster_id": {
+                    "example": "any"
+                  },
+                  "category": {
+                    "example": "any"
+                  },
+                  "type": {
+                    "example": "any"
+                  },
+                  "affect": {
+                    "example": "any"
+                  },
+                  "start_date": {
+                    "example": "any"
+                  },
+                  "end_date": {
+                    "example": "any"
+                  },
+                  "size": {
+                    "example": "any"
+                  },
+                  "unit": {
+                    "example": "any"
+                  },
+                  "detail": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Disaster"
+        ],
+        "summary": "delete Disaster by disaster_id ",
+        "description": "delete Disaster by disaster_id <br>",
+        "parameters": [
+          {
+            "name": "disaster_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/disaster/picture_id": {
+      "delete": {
+        "tags": [
+          "Disaster"
+        ],
+        "summary": "Delete Disaster picture by picture_id ",
+        "description": "Delete Disaster picture by picture_id <br>",
+        "parameters": [
+          {
+            "name": "picture_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/disaster/": {
+      "get": {
+        "tags": [
+          "Disaster"
+        ],
+        "summary": "แสดงข้อมูล Disaster by username, plang_id, disaster_id ",
+        "description": "แสดงข้อมูล Disaster by username, plang_id , disaster_id <br><br>   ค้นหาข้อมูล Disaster โดย search จากคอลัมน์ที่กำหนดได้อย่างใดอย่างหนึ่งเท่านั้น คือ<br>  search_username : ถ้าต้องการแสดงว่า search_username มี Disaster อะไรบ้าง <br>  search_plang_id : ถ้าต้องการแสดงว่า แปลง นี้มี Disaster อะไรบ้าง <br>  search_disaster_id : ถ้าต้องการแสดงว่า disaster_id นี้มีรายละเอียดอย่างไร<br>  ถ้าไม่ส่งอะไรมา จะแสดง ว่า user ตัวเอง มีDisaster อะไรบ้าง ",
+        "parameters": [
+          {
+            "name": "search_username",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search_plang_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search_disaster_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/alert/": {
+      "post": {
+        "tags": [
+          "Alert"
+        ],
+        "summary": "เพิ่ม ข้อมูล Alert ทั้งจากเกษตกร และ เกษตรอำเภอ",
+        "description": "เพิ่ม ข้อมูล Alert ทั้งจากเกษตกร และ เกษตรอำเภอ<br>  <br> alert_type คือบอกว่าเป็น alert เกี่ยวกับอะไร เป็นได้ 4 อย่างคือ - พืช, สัตว์, ภัยพิบัติ, อื่น ๆ  <br>  <br> aleart_enddate ให้ส่งมาเฉพาะกรณีคนส่ง alert คือ เกษตรอำเภอ ว่าต้องการให้แสดงข้อความถึงวันไหน  <br> กรณีคนส่งเป็น เกษตรกร ไม่ต้องใส่ enddate และจะเก็บค่าเป็น NULL   <br> response_to คือ array ของ alert_id ที่ต้องการตอบกลับ   <br> 1. กรณีคนส่ง alert คือเกษตรกร ไม่ต้องส่ง response_to มา  <br> 2. กรณีคนส่ง alert คือเกษตรอำเภอ (เป็นการตอบกลับ alert_id ของเกษตรกร)  <br> ให้ส่ง response_to เป็น array of alert_id ที่ต้องการตอบกลับ เช่น [1,2,6,9]  <br> 3. กรณีเกษตรอำเภอ ต้องการส่ง alert ให้เกษตรกรทุกคน (เช่นการประกาศข่าว) ไม่ต้องส่ง response_to  <br> แต่ให้ส่ง announcement เป็น 1  <br>  <br> announcement = 1 ส่งมาเฉพาะกรณีเกษตรอำเภอ ต้องการส่ง alert ให้เกษตรกรทุกคน (เช่นการประกาศข่าว)  ",
+        "parameters": [
+          {
+            "name": "alert_enddate",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "alert_type",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "detail",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "response_to",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "announcement",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/FileUpload"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Alert"
+        ],
+        "summary": "แสดงข้อมูล Alert ที่ ตัวเองเป็นคนส่ง ",
+        "description": " แสดงข้อมูล Alert ที่ ตัวเองเป็นคนส่ง   <br><br>  ",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/v1/alert/alert_id": {
+      "put": {
+        "tags": [
+          "Alert"
+        ],
+        "summary": "edit ข้อมูล Alert ทั้งจากเกษตกร และ เกษตรอำเภอ by alert_id",
+        "description": "edit ข้อมูล Alert ทั้งจากเกษตกร และ เกษตรอำเภอ <br>  แก้ไขแค่ enddate, type, detail, announcement  <br> alert_type คือบอกว่าเป็น alert เกี่ยวกับอะไร เป็นได้ 6 อย่างคือ - พืช, สัตว์, ภัยแล้ง, น้ำท่วม, ภัยพิบัติอื่น ๆ, อื่น ๆ  ",
+        "parameters": [
+          {
+            "name": "alert_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "alert_enddate",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "alert_type",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "detail",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "announcement",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/FileUpload"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Alert"
+        ],
+        "summary": "Delete ALERT by alert_id ",
+        "description": "Delete ALERT by alert_id <br>",
+        "parameters": [
+          {
+            "name": "alert_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/alert/announcement": {
+      "get": {
+        "tags": [
+          "Alert"
+        ],
+        "summary": "แสดงข้อมูล Alert ที่เป็น announcement จาก เกษตรอำเภอ (address code เดียวกันกับ เกษตรกร)",
+        "description": " แสดงข้อมูล Alert ที่เป็น announcement จาก เกษตรอำเภอ<br><br>   <br>แสดงข่าวประกาศจากเกษตรอำเภอ โดยแสดงเฉพาะข่าวที่ถึงวัน alert_enddate  <br>  return: ALERT.* และ officer_name , officer.user_role ของเกษตรอำเภอ ที่เป็นคนประกาศข่าว  ",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/v1/alert/response/alert_id": {
+      "get": {
+        "tags": [
+          "Alert"
+        ],
+        "summary": "แสดงข้อมูลที่เกษตรอำเภอ reply to alert_id นั้น ๆ",
+        "description": " แสดงข้อมูลที่เกษตรอำเภอ reply to alert_id นั้น ๆ<br>  <br>   ",
+        "parameters": [
+          {
+            "name": "alert_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/alert/officer": {
+      "get": {
+        "tags": [
+          "Alert"
+        ],
+        "summary": "Officer แสดงข้อมูลร้องทุกข์จากเกษตรกรที่อยู่ในอำเภอที่ดูแลอยู่ ",
+        "description": " Officer แสดงข้อมูลร้องทุกข์จากเกษตรกรที่อยู่ในอำเภอที่ดูแลอยู่<br><br>   แสดงข้อความร้องทุกข์จากเกษตรกร ที่อยู่ในอำเภอที่ เกษตรอำเภอคนนี้ดูแลอยู่<br>  โดยเรียงลำดับการแสดงผลข้อมูลตาม<br>  - ข้อความที่ยังไม่ได้ตอบ<br>  - alert_id จากล่าสุดไปหาเก่า<br> ",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/v1/forecast/station": {
+      "get": {
+        "tags": [
+          "FORECAST"
+        ],
+        "summary": "สร้างไว้ทดสอบ ไม่มีเรียกใช้ select station ของ user ",
+        "description": " select station ที่ใกล้ที่สุด ของ user <br>  - โดยดูจาก address_code ของ user <br>  - station type :<br><br>  1 - Hydrology อุทกวิทยา ปริมาณน้ำท่า SRI model<br>  2 - Meteorology อุตุนิยมวิทยา ปริมาณน้ำฝน SPI , SPEI model <br>  3 - Satellite ดาวเทียม ดัชนีความแห้งแล้ง NDVI, SSI model",
+        "parameters": [
+          {
+            "name": "search_username",
+            "in": "query",
+            "description": "username ที่ต้องการค้นหา",
+            "required": false,
+            "default": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "address_code",
+            "in": "query",
+            "description": "address_code ที่ต้องการค้นหา",
+            "required": false,
+            "default": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "security": []
+      }
+    },
+    "/v1/forecast/spi": {
+      "get": {
+        "tags": [
+          "FORECAST"
+        ],
+        "summary": "แสดง SPI forecast ของ user หรือของแปลงเกษตร",
+        "description": "แสดง SPI forecast ของ user หรือของแปลงเกษตร <br><br>    SPI forcast อุตุนิยมวิทยา ดัชนีปริมาณน้ำฝน <br>   แสดงข้อมูลเป็นราย 10 วัน โดยดูจากวันนี้ return 9 ค่า <br>   (นับจากวันนี้ไป 3 เดือน--ต่อไปอาจแสดงมากกว่านี้)<br>   rank = 1 คือวันที่ 1-10 <br>   rank = 2 คือวันที่ 11-20 <br>   rank = 3 คือวันที่ 21-30 <br> <br>     value คือค่าที่ได้ นำไปแปลงเป็นคำปริมาณน้ำฝน, มาก ... <br>     - forecast ค่าจาก station ที่ใกล้ที่สุด<br>   - ส่ง lat, long มา จะเลือก station ที่ใกล้ที่สุดจาก lat, long นั้น<br>   ซึ่งบาง station อาจจะไม่มีค่าก็ได้<br>     <br>",
+        "parameters": [
+          {
+            "name": "latitude",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "longitude",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/forecast/sri": {
+      "get": {
+        "tags": [
+          "FORECAST"
+        ],
+        "summary": "แสดง SRI forecast ของ user หรือของแปลงเกษตร",
+        "description": "แสดง SRI forecast ของ user หรือของแปลงเกษตร <br>    SRI forcast อุทกวิทยา ปริมาณน้ำท่า <br>   แสดงข้อมูลเป็นราย 10 วัน โดยดูจากวันนี้ return 9 ค่า <br>   (นับจากวันนี้ไป 3 เดือน--ต่อไปอาจแสดงมากกว่านี้ตอนนี้ข้อมูลมีแค่นี้)<br>   rank = 1 คือวันที่ 1-10 <br>   rank = 2 คือวันที่ 11-20 <br>   rank = 3 คือวันที่ 21-30 <br> <br>     value คือค่าที่ได้ นำไปแปลงเป็นปริมาณน้ำท่า มากที่สุด, มาก ... <br>     - forecast ค่าจาก station ที่ใกล้ที่สุด<br>   ส่ง lat, long มา จะเลือก station ที่ใกล้ที่สุดจาก lat, long นั้น<br>   ซึ่งบาง station อาจจะไม่มีค่าก็ได้<br>     <br>",
+        "parameters": [
+          {
+            "name": "latitude",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "longitude",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/forecast/ssi": {
+      "get": {
+        "tags": [
+          "FORECAST"
+        ],
+        "summary": "แสดง SSI forecast ของ user หรือของแปลงเกษตร",
+        "description": "แสดง SPI forecast ของ user หรือของแปลงเกษตร <br>    SSI forcast จากดาวเทียม ความชื้นในดิน-ความแห้งแล้ง <br>   แสดงข้อมูลเป็นราย 10 วัน โดยดูจากวันนี้ return 9 ค่า <br>   (นับจากวันนี้ไป 3 เดือน--ต่อไปอาจแสดงมากกว่านี้ตอนนี้ข้อมูลมีแค่นี้)<br>   rank = 1 คือวันที่ 1-10 <br>   rank = 2 คือวันที่ 11-20 <br>   rank = 3 คือวันที่ 21-30 <br> <br>     value คือค่าที่ได้ นำไปแปลงเป็นคำว่า ความชื้นมาก, แห้งแล้งมาก, ... <br>     - forecast ค่าจาก station ที่ใกล้ที่สุด<br>   ส่ง lat, long มา จะเลือก station ที่ใกล้ที่สุดจาก lat, long นั้น<br>   ซึ่งบาง station อาจจะไม่มีค่าก็ได้<br>     <br>",
+        "parameters": [
+          {
+            "name": "latitude",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "longitude",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/forecast/ndvi": {
+      "get": {
+        "tags": [
+          "FORECAST"
+        ],
+        "summary": "แสดง NDVI forecast ของ user หรือของแปลงเกษตร",
+        "description": "แสดง NDVI forecast ของ user หรือของแปลงเกษตร <br>    NDVI forcast จากดาวเทียม ดัชนีความแห้งแล้ง <br><br>  ----- แตกต่างจาก indexอื่น ๆคือผลเป็นรายเดือน ไม่ใช่ราย 10 วัน -------<br>      value คือค่าที่ได้ นำไปแปลงเป็นคำว่า ไม่แห้งแล้ง, แห้งแล้งรุนแรง ... <br>     - forecast ค่าจาก station ที่ใกล้ที่สุด<br>   ส่ง lat, long มา จะเลือก station ที่ใกล้ที่สุดจาก lat, long นั้น<br>   ซึ่งบาง station อาจจะไม่มีค่าก็ได้<br>     <br>",
+        "parameters": [
+          {
+            "name": "latitude",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "longitude",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/forecast/wdi": {
+      "get": {
+        "tags": [
+          "FORECAST"
+        ],
+        "summary": "แสดง WDI forecast ของ user หรือของแปลงเกษตร",
+        "description": "แสดง WDI forecast ของ user หรือของแปลงเกษตร <br>   WDI - Water Drough Index ตามลุ่มแม่น้ำ โขง ชี มูล บอกความแห้งแล้ว<br>   แสดงข้อมูลเป็นราย 10 วัน โดยดูจากวันนี้ return 10 ค่า <br>   (นับจากวันนี้ไป 3 เดือน--)<br>   rank = 1 คือวันที่ 1-10 <br>   rank = 2 คือวันที่ 11-20 <br>   rank = 3 คือวันที่ 21-30 <br> <br>     value คือค่าที่ได้ นำไปแปลงเป็นคำว่า แล้งมาก, แล้งปานกลาง , แล้งน้อย, ไม่แล้ง <br>    rivel คือลุ่มแม่น้ำของ locationนั้น ๆ เพื่อนำไปแสดงผล เช่น<br>   ดัชนีความแล้งระดับลุ่มน้ำ (ลุ่มน้ำขี)<br> <br>     - forecast ค่าจาก station ที่ใกล้ที่สุด<br>   ส่ง lat, long มา จะเลือก station ที่ใกล้ที่สุดจาก lat, long นั้น<br>   ซึ่งบาง station อาจจะไม่มีค่าก็ได้<br>     <br>",
+        "parameters": [
+          {
+            "name": "latitude",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "longitude",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/forecast/plants": {
+      "get": {
+        "tags": [
+          "FORECAST"
+        ],
+        "summary": "แสดงพืชที่เหมาะสมในการเพาะปลูก",
+        "description": "แสดงแสดงพืชที่เหมาะสมในการเพาะปลูก <br><br>    โดยดูจาก SPI index ของวันนั้น ๆ <br>     - forecast ค่าจาก station ที่ใกล้ที่สุด<br>   - ส่ง lat, long มา จะเลือก station ที่ใกล้ที่สุดจาก lat, long นั้น<br>   ซึ่งบาง station อาจจะไม่มีค่าก็ได้<br>     <br>",
+        "parameters": [
+          {
+            "name": "latitude",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "longitude",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/forecast/soil/soil_property": {
+      "get": {
+        "tags": [
+          "FORECAST"
+        ],
+        "summary": "แสดง ข้อมูลดินของแปลงเกษตร ตาม lat, long",
+        "description": "แสดง ข้อมูลดินของแปลงเกษตร ตาม lat, long <br>  <br>   แสดงข้อมูลดินในapp หน้าแรก(อากาศวันนี้)<br>  ข้อมูลที่ return แต่ละคอลัมน์คือ<br>  soil_group - กลุ่มชุดดิน<br>  soil_aka - ชื่อชุดดินตัวย่อ<br>  soil_name - ชื่อชุดดิน<br>  soil_fertility - ความอุดมสมบูรณ์ของดิน<br>  soil_ph - ค่าความเป็นกรด-ด่างของเนื้อดิน<br>  soil_texture - ลักษณะเนื้อดิน<br>  suitable_plant - พืชที่เหมาะสมกับการเพาะปลูก<br>  soil_property - คุณสมบัติของดิน<br>  plantArray - เหมือนกันกับ suitable_plant แค่แยกเป็น array ให้เฉย ๆ ถ้าไม่มีแสดงรูป ใช้ suitable_plant เลยก็ได้<br>   <br>",
+        "parameters": [
+          {
+            "name": "latitude",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "longitude",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/report/1_plang/district_addresscode": {
+      "get": {
+        "tags": [
+          "Report"
+        ],
+        "summary": "เกษตรอำเภอ ดูข้อมูล Report (ชุมชน) by เกี่ยวกับแปลงในอำเภอนั้น ๆ ,",
+        "description": "เกษตรอำเภอ ดูข้อมูล Report (ชุมชน) by เกี่ยวกับแปลงในอำเภอนั้น ๆ <br>  <br><br>   เส้นนี้ report/plang ข้อมูลที่ report คือ <br>  - farmer_amount<br>  - plang_amount <br>  - rai_amount <br>   - rai_activity<br>  - rai_empty <br>  - type_data<br>  ",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/v1/report/2_all_subdistrict_overview/district_addresscode": {
+      "get": {
+        "tags": [
+          "Report"
+        ],
+        "summary": "เกษตรอำเภอ ดูภาพรวม ในอำเภอนั้น ๆ แยกตาม ตำบล ",
+        "description": "เกษตรอำเภอ ดูภาพรวม ในอำเภอนั้น ๆ แยกตาม ตำบล <br><br>    เรียกเส้นนี้เฉพาะ user ที่มี user_role = 5 (จนท. ระดับอำเภอ) เท่านั้น<br>   ข้อมูลที่แสดงคือ<br>   - ชื่อตำบล<br>   - รหัสตำบล (subdistrict_addresscode) ต้องส่งค่านี้ไปเส้น API ต่อไป เพื่อดูเกษตรกรแต่ละรายในตำบลนั้นๆ<br>   - จำนวนเกษตรกรในตำบลน้น<br>   - จำวนแปลง<br>   - จำนวนไร่<br>   พวก จำนวน ถ้าไม่มีข้อมูลใน database จะ return 0 <br> ",
+        "parameters": [
+          {
+            "name": "user_role",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/report/3_farmer/subdistrict_addresscode": {
+      "get": {
+        "tags": [
+          "Report"
+        ],
+        "summary": "ดูข้อมูล รายชื่อเกษตรกร ในตำบลนั้น โดยส่ง subdistrict_addresscode ",
+        "description": " ดูข้อมูล รายชื่อเกษตรกร ในตำบลนั้น โดยส่ง subdistrict_addresscode <br>    <br> ** ต้องส่ง subdistrict_addcresscode ของตำบลที่ต้องการดูข้อมูลมาด้วยเสมอ<br>  แสดง  - ข้อมูลเกษตรกร และ<br>   - จำนวนแปลงของเกษตรกรคนนั้น<br>   - จำนวนไร่ที่มี<br>   <br> ",
+        "parameters": [
+          {
+            "name": "subdistrict_addresscode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v1/report/4_farmer_all/district_addresscode": {
+      "get": {
+        "tags": [
+          "Report"
+        ],
+        "summary": "ดูข้อมูล รายชื่อเกษตรกรทั้งหมดใน อำเภอนั้น ๆ (ไม่ต้องแยกตามตำบล)",
+        "description": " ดูข้อมูล รายชื่อเกษตรกรทั้งหมดใน อำเภอนั้น ๆ (ไม่ต้องแยกตามตำบล) <br>   แสดง เหมือนที่แสดงแยกตามตำบล แต่อันนี้คือ แสดงทั้งหมดเลย ไม่ต้องกดดูตามตำบล <br>  - ข้อมูลเกษตรกร และ<br>   - จำนวนแปลงของเกษตรกรคนนั้น<br>   - จำนวนไร่ที่มี<br>   <br> ",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/v1/report/5_subdistrict_overview/subdistrict_addresscode": {
+      "get": {
+        "tags": [
+          "Report"
+        ],
+        "summary": "จนท. ระดับตำบล ดูภาพรวม ในตำบลนั้น ๆ ",
+        "description": "จนท. ระดับตำบล ดูภาพรวม ในตำบลนั้น ๆ <br><br>    เรียกเส้นนี้เฉพาะ user ที่มี user_role = 4 (จนท. ระดับตำบล) เท่านั้น<br>   ข้อมูลที่แสดงคือ<br>   - ชื่อตำบล<br>   - จำนวนเกษตรกรในตำบลน้น<br>   - จำนวนแปลง<br>   - จำนวนไร่<br>   พวก จำนวน ถ้าไม่มีข้อมูลใน database จะ return 0 <br> ",
+        "parameters": [
+          {
+            "name": "user_role",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v2/plang/pictures/{picture_id}": {
+      "delete": {
+        "tags": [
+          "v2 Plang"
+        ],
+        "summary": "ลบรูปภาพแปลง",
+        "description": "",
+        "parameters": [
+          {
+            "name": "picture_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v2/plang/water_supply/{wid}": {
+      "delete": {
+        "tags": [
+          "v2 Plang"
+        ],
+        "summary": "ลบ water supply",
+        "description": "",
+        "parameters": [
+          {
+            "name": "wid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v2/plang/water_source/{wid}": {
+      "delete": {
+        "tags": [
+          "v2 Plang"
+        ],
+        "summary": "ลบ water source",
+        "description": "",
+        "parameters": [
+          {
+            "name": "wid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v2/plang/": {
+      "post": {
+        "tags": [
+          "v2 Plang"
+        ],
+        "summary": "เพิ่มแปลงของตัวเอง",
+        "description": "เหมือน POST /v1/plang ถ้าไม่ส่ง plang_address_code จะใช้ address_code ของเกษตรกร",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlangInput"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "v2 Plang"
+        ],
+        "summary": "ค้นหาแปลง (ของตัวเอง / search_username / search_plang_id)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "search_username",
+            "in": "query",
+            "description": "แปลงทั้งหมดของ user นี้",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search_plang_id",
+            "in": "query",
+            "description": "แปลงเดียว",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v2/plang/{plang_id}": {
+      "get": {
+        "tags": [
+          "v2 Plang"
+        ],
+        "summary": "ข้อมูลแปลงตาม plang_id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "plang_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      },
+      "put": {
+        "tags": [
+          "v2 Plang"
+        ],
+        "summary": "แก้ไขแปลง (เจ้าของ หรือ ผู้นำ/เจ้าหน้าที่)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "plang_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlangInput"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "v2 Plang"
+        ],
+        "summary": "ลบแปลง (เจ้าของ หรือ ผู้นำ/เจ้าหน้าที่)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "plang_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v2/plang/{plang_id}/count_detail": {
+      "get": {
+        "tags": [
+          "v2 Plang"
+        ],
+        "summary": "นับจำนวน ปลูกพืช / เลี้ยงสัตว์ / subplang / disaster ของแปลง",
+        "description": "",
+        "parameters": [
+          {
+            "name": "plang_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v2/plang/{plang_id}/pictures": {
+      "get": {
+        "tags": [
+          "v2 Plang"
+        ],
+        "summary": "รูปภาพของแปลง",
+        "description": "",
+        "parameters": [
+          {
+            "name": "plang_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      },
+      "post": {
+        "tags": [
+          "v2 Plang"
+        ],
+        "summary": "อัปโหลดรูปภาพแปลง",
+        "description": "",
+        "parameters": [
+          {
+            "name": "plang_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/PictureUpload"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/plang/{plang_id}/water_supply": {
+      "get": {
+        "tags": [
+          "v2 Plang"
+        ],
+        "summary": "water supply ของแปลง",
+        "description": "",
+        "parameters": [
+          {
+            "name": "plang_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      },
+      "post": {
+        "tags": [
+          "v2 Plang"
+        ],
+        "summary": "เพิ่ม water supply (บ่อจิ๋ว / น้ำบาดาล)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "plang_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WaterSupplyInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/plang/{plang_id}/water_source": {
+      "get": {
+        "tags": [
+          "v2 Plang"
+        ],
+        "summary": "water source ของแปลง",
+        "description": "",
+        "parameters": [
+          {
+            "name": "plang_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      },
+      "post": {
+        "tags": [
+          "v2 Plang"
+        ],
+        "summary": "เพิ่ม water source (ห้วย หนอง คลอง บึง ...)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "plang_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WaterSourceInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/plang/{plang_id}/soil_meter": {
+      "get": {
+        "tags": [
+          "v2 Plang"
+        ],
+        "summary": "ข้อมูล soil meter ของแปลง (ใหม่สุดก่อน)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "plang_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      },
+      "post": {
+        "tags": [
+          "v2 Plang"
+        ],
+        "summary": "เพิ่มข้อมูล soil meter (soil, t, ph, ec, n, p, k)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "plang_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SoilMeterInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/subplang/pictures/{picture_id}": {
+      "delete": {
+        "tags": [
+          "v2 Subplang"
+        ],
+        "summary": "ลบรูปภาพ subplang",
+        "description": "",
+        "parameters": [
+          {
+            "name": "picture_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v2/subplang/": {
+      "post": {
+        "tags": [
+          "v2 Subplang"
+        ],
+        "summary": "เพิ่ม subplang ลงในแปลง (ส่ง plang_id ใน body)",
+        "description": "",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubplangInsertInput"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "v2 Subplang"
+        ],
+        "summary": "ค้นหา subplang (ของตัวเอง / search_username / search_plang_id / search_subplang_id)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "search_username",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search_plang_id",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "search_subplang_id",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v2/subplang/{subplang_id}": {
+      "get": {
+        "tags": [
+          "v2 Subplang"
+        ],
+        "summary": "ข้อมูล subplang ตาม subplang_id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "subplang_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      },
+      "put": {
+        "tags": [
+          "v2 Subplang"
+        ],
+        "summary": "แก้ไข subplang",
+        "description": "",
+        "parameters": [
+          {
+            "name": "subplang_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubplangUpdateInput"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "v2 Subplang"
+        ],
+        "summary": "ลบ subplang",
+        "description": "",
+        "parameters": [
+          {
+            "name": "subplang_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v2/subplang/{subplang_id}/count_activity": {
+      "get": {
+        "tags": [
+          "v2 Subplang"
+        ],
+        "summary": "นับจำนวน activity ของ subplang",
+        "description": "",
+        "parameters": [
+          {
+            "name": "subplang_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v2/subplang/{subplang_id}/pictures": {
+      "get": {
+        "tags": [
+          "v2 Subplang"
+        ],
+        "summary": "รูปภาพของ subplang",
+        "description": "",
+        "parameters": [
+          {
+            "name": "subplang_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      },
+      "post": {
+        "tags": [
+          "v2 Subplang"
+        ],
+        "summary": "อัปโหลดรูปภาพ subplang",
+        "description": "",
+        "parameters": [
+          {
+            "name": "subplang_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/PictureUpload"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/activity/master/type1": {
+      "get": {
+        "tags": [
+          "v2 Activity"
+        ],
+        "summary": "master กิจกรรมระดับ 1 (เช่น ประมงน้ำจืด)",
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/v2/activity/master/type2": {
+      "get": {
+        "tags": [
+          "v2 Activity"
+        ],
+        "summary": "master กิจกรรมระดับ 2 ตาม type1",
+        "description": "",
+        "parameters": [
+          {
+            "name": "type1",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v2/activity/master/type3": {
+      "get": {
+        "tags": [
+          "v2 Activity"
+        ],
+        "summary": "master กิจกรรมระดับ 3 ตาม type2 (มี pattern, unit)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "type2",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v2/activity/pictures/{picture_id}": {
+      "delete": {
+        "tags": [
+          "v2 Activity"
+        ],
+        "summary": "ลบรูปภาพ activity",
+        "description": "",
+        "parameters": [
+          {
+            "name": "picture_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v2/activity/": {
+      "post": {
+        "tags": [
+          "v2 Activity"
+        ],
+        "summary": "เพิ่ม activity (การเพาะปลูก/เลี้ยงสัตว์)",
+        "description": "เหมือน POST /v1/activity/plang_id ต้องส่ง plang_id เสมอ, subplang_id ใส่เมื่อเพิ่มลง subplang",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivityInsertInput"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "v2 Activity"
+        ],
+        "summary": "ค้นหา activity (ของตัวเอง / search_username / search_plang_id / search_subplang_id / search_activity_id)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "search_username",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search_plang_id",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "search_subplang_id",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "search_activity_id",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v2/activity/{activity_id}": {
+      "get": {
+        "tags": [
+          "v2 Activity"
+        ],
+        "summary": "ข้อมูล activity ตาม activity_id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "activity_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      },
+      "put": {
+        "tags": [
+          "v2 Activity"
+        ],
+        "summary": "แก้ไข activity",
+        "description": "",
+        "parameters": [
+          {
+            "name": "activity_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivityUpdateInput"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "v2 Activity"
+        ],
+        "summary": "ลบ activity",
+        "description": "",
+        "parameters": [
+          {
+            "name": "activity_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v2/activity/{activity_id}/pictures": {
+      "get": {
+        "tags": [
+          "v2 Activity"
+        ],
+        "summary": "รูปภาพของ activity",
+        "description": "",
+        "parameters": [
+          {
+            "name": "activity_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      },
+      "post": {
+        "tags": [
+          "v2 Activity"
+        ],
+        "summary": "อัปโหลดรูปภาพ activity",
+        "description": "",
+        "parameters": [
+          {
+            "name": "activity_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/PictureUpload"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/disaster/pictures/{picture_id}": {
+      "delete": {
+        "tags": [
+          "v2 Disaster"
+        ],
+        "summary": "ลบรูปภาพ disaster",
+        "description": "",
+        "parameters": [
+          {
+            "name": "picture_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v2/disaster/": {
+      "post": {
+        "tags": [
+          "v2 Disaster"
+        ],
+        "summary": "เพิ่ม disaster (ภัยแล้ง, น้ำท่วม, โรคพืช, อื่น ๆ) ลงแปลง (ส่ง plang_id ใน body)",
+        "description": "",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DisasterInsertInput"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "v2 Disaster"
+        ],
+        "summary": "ค้นหา disaster (ของตัวเอง / search_username / search_plang_id / search_disaster_id)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "search_username",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search_plang_id",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "search_disaster_id",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v2/disaster/{disaster_id}": {
+      "get": {
+        "tags": [
+          "v2 Disaster"
+        ],
+        "summary": "ข้อมูล disaster ตาม disaster_id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "disaster_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      },
+      "put": {
+        "tags": [
+          "v2 Disaster"
+        ],
+        "summary": "แก้ไข disaster",
+        "description": "",
+        "parameters": [
+          {
+            "name": "disaster_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DisasterUpdateInput"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "v2 Disaster"
+        ],
+        "summary": "ลบ disaster",
+        "description": "",
+        "parameters": [
+          {
+            "name": "disaster_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v2/disaster/{disaster_id}/pictures": {
+      "get": {
+        "tags": [
+          "v2 Disaster"
+        ],
+        "summary": "รูปภาพของ disaster",
+        "description": "",
+        "parameters": [
+          {
+            "name": "disaster_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      },
+      "post": {
+        "tags": [
+          "v2 Disaster"
+        ],
+        "summary": "อัปโหลดรูปภาพ disaster",
+        "description": "",
+        "parameters": [
+          {
+            "name": "disaster_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/PictureUpload"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/alert/announcement": {
+      "get": {
+        "tags": [
+          "v2 Alert"
+        ],
+        "summary": "ประกาศจากเจ้าหน้าที่ (สำหรับเกษตรกร)",
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/v2/alert/officer": {
+      "get": {
+        "tags": [
+          "v2 Alert"
+        ],
+        "summary": "ข้อความร้องเรียนจากเกษตรกร (สำหรับเจ้าหน้าที่)",
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/v2/alert/": {
+      "post": {
+        "tags": [
+          "v2 Alert"
+        ],
+        "summary": "เพิ่ม alert (เกษตรกรร้องเรียน / เกษตรอำเภอตอบกลับหรือประกาศ)",
+        "description": "ส่งเป็น multipart/form-data (มีรูป field file) หรือ JSON ก็ได้<br>  - เกษตรกร: ไม่ต้องส่ง alert_enddate, response_to<br>  - เกษตรอำเภอตอบกลับ: ส่ง response_to เป็น array ของ alert_id<br>  - เกษตรอำเภอประกาศ: ส่ง announcement = 1",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/AlertInputForm"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlertInput"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "v2 Alert"
+        ],
+        "summary": "alert ของตัวเอง (ทั้ง farmer และ officer)",
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/v2/alert/{alert_id}/responses": {
+      "get": {
+        "tags": [
+          "v2 Alert"
+        ],
+        "summary": "คำตอบจากเกษตรอำเภอของ alert นี้",
+        "description": "",
+        "parameters": [
+          {
+            "name": "alert_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v2/alert/{alert_id}": {
+      "put": {
+        "tags": [
+          "v2 Alert"
+        ],
+        "summary": "แก้ไข alert (เจ้าของ หรือ ผู้นำ/เจ้าหน้าที่)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "alert_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/AlertInputForm"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlertInput"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "v2 Alert"
+        ],
+        "summary": "ลบ alert (เจ้าของ หรือ ผู้นำ/เจ้าหน้าที่)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "alert_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v2/community/": {
+      "post": {
+        "tags": [
+          "v2 Community"
+        ],
+        "summary": "เพิ่มชุมชน",
+        "description": "",
+        "parameters": [],
+        "responses": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommunityInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/community/{community_id}": {
+      "get": {
+        "tags": [
+          "v2 Community"
+        ],
+        "summary": "ข้อมูลชุมชน",
+        "description": "",
+        "parameters": [
+          {
+            "name": "community_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/v2/community/{community_id}/members": {
+      "get": {
+        "tags": [
+          "v2 Community"
+        ],
+        "summary": "สมาชิกในชุมชน",
+        "description": "",
+        "parameters": [
+          {
+            "name": "community_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "number",
+            "example": 200
+          },
+          "result": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        "xml": {
+          "name": "ApiResponse"
+        }
+      },
+      "ApiError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "number",
+            "example": 400
+          },
+          "result": {},
+          "error": {
+            "type": "string",
+            "example": "ข้อความแสดงข้อผิดพลาด"
+          }
+        },
+        "xml": {
+          "name": "ApiError"
+        }
+      },
+      "ValidationError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "number",
+            "example": 400
+          },
+          "result": {
+            "type": "array",
+            "example": [
+              "body.rai: ต้องเป็นตัวเลข"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "error": {
+            "type": "string",
+            "example": "ข้อมูลไม่ถูกต้อง"
+          }
+        },
+        "xml": {
+          "name": "ValidationError"
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "tawan"
+          },
+          "username": {
+            "type": "string",
+            "example": "string"
+          },
+          "password": {
+            "type": "string",
+            "example": "string"
+          }
+        },
+        "required": [
+          "name",
+          "username",
+          "password"
+        ],
+        "xml": {
+          "name": "User"
+        }
+      },
+      "UserDetail": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "ปีเตอร์"
+          },
+          "surname": {
+            "type": "string",
+            "example": "ปาร์คเกอร์"
+          },
+          "idcard": {
+            "type": "string",
+            "example": "2201200440445"
+          },
+          "gender": {
+            "type": "string",
+            "example": "M"
+          },
+          "birthday": {
+            "type": "string",
+            "example": "24-09-2000"
+          },
+          "houseid": {
+            "type": "string",
+            "example": "12/100"
+          },
+          "moo": {
+            "type": "string",
+            "example": "10"
+          },
+          "village": {
+            "type": "string",
+            "example": "บ้านอยู่ดี"
+          },
+          "road": {
+            "type": "string",
+            "example": "สาธร"
+          },
+          "subdistrict": {
+            "type": "string",
+            "example": "ขามเรียง"
+          },
+          "district": {
+            "type": "string",
+            "example": "กันทรวิชัย"
+          },
+          "province": {
+            "type": "string",
+            "example": "มหาสารคาม"
+          },
+          "post": {
+            "type": "string",
+            "example": "44150"
+          },
+          "phone": {
+            "type": "string",
+            "example": "0994454545"
+          },
+          "info": {
+            "type": "string",
+            "example": "ข้อมูลเพิ่มเติมเกียวกับปีเตอร์"
+          }
+        },
+        "xml": {
+          "name": "UserDetail"
+        }
+      },
+      "GeneralError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "number",
+            "example": 400
+          },
+          "result": {
+            "type": "string",
+            "example": "string"
+          },
+          "error": {
+            "type": "string",
+            "example": "string"
+          }
+        },
+        "xml": {
+          "name": "GeneralError"
+        }
+      },
+      "PlangInput": {
+        "type": "object",
+        "properties": {
+          "plang_name": {
+            "type": "string",
+            "example": "แปลงนาบ้านดอน"
+          },
+          "plang_address_code": {
+            "type": "string",
+            "example": "44050401"
+          },
+          "lat_long": {
+            "type": "string",
+            "example": "[[16.24,103.25],[16.25,103.26],[16.23,103.27]]"
+          },
+          "center": {
+            "type": "string",
+            "example": "16.24,103.25"
+          },
+          "rai": {
+            "type": "number",
+            "example": 3
+          },
+          "ngan": {
+            "type": "number",
+            "example": 1
+          },
+          "wa": {
+            "type": "number",
+            "example": 20
+          },
+          "moo": {
+            "type": "string",
+            "example": "5"
+          },
+          "village": {
+            "type": "string",
+            "example": "บ้านดอน"
+          },
+          "road": {
+            "type": "string",
+            "example": ""
+          },
+          "subdistrict": {
+            "type": "string",
+            "example": "ขามเรียง"
+          },
+          "district": {
+            "type": "string",
+            "example": "กันทรวิชัย"
+          },
+          "province": {
+            "type": "string",
+            "example": "มหาสารคาม"
+          },
+          "title_deed": {
+            "type": "string",
+            "example": "โฉนด"
+          },
+          "own_type": {
+            "type": "string",
+            "example": "เจ้าของ"
+          },
+          "detail": {
+            "type": "string",
+            "example": ""
+          }
+        },
+        "xml": {
+          "name": "PlangInput"
+        }
+      },
+      "WaterSupplyInput": {
+        "type": "object",
+        "properties": {
+          "supply_type": {
+            "type": "string",
+            "example": "บ่อจิ๋ว"
+          },
+          "width": {
+            "type": "number",
+            "example": 4
+          },
+          "depth": {
+            "type": "number",
+            "example": 3
+          },
+          "water_depth": {
+            "type": "number",
+            "example": 2
+          },
+          "detail": {
+            "type": "string",
+            "example": ""
+          }
+        },
+        "xml": {
+          "name": "WaterSupplyInput"
+        }
+      },
+      "WaterSourceInput": {
+        "type": "object",
+        "properties": {
+          "source_type": {
+            "type": "string",
+            "example": "หนอง"
+          },
+          "source_name": {
+            "type": "string",
+            "example": "หนองบัว"
+          },
+          "width": {
+            "type": "number",
+            "example": 50
+          },
+          "depth": {
+            "type": "number",
+            "example": 3
+          },
+          "water_depth": {
+            "type": "number",
+            "example": 2
+          },
+          "detail": {
+            "type": "string",
+            "example": ""
+          }
+        },
+        "xml": {
+          "name": "WaterSourceInput"
+        }
+      },
+      "SoilMeterInput": {
+        "type": "object",
+        "properties": {
+          "soil": {
+            "type": "number",
+            "example": 30
+          },
+          "t": {
+            "type": "number",
+            "example": 28.5
+          },
+          "ph": {
+            "type": "number",
+            "example": 6.5
+          },
+          "ec": {
+            "type": "number",
+            "example": 120
+          },
+          "n": {
+            "type": "number",
+            "example": 10
+          },
+          "p": {
+            "type": "number",
+            "example": 5
+          },
+          "k": {
+            "type": "number",
+            "example": 8
+          },
+          "detail": {
+            "type": "string",
+            "example": ""
+          }
+        },
+        "xml": {
+          "name": "SoilMeterInput"
+        }
+      },
+      "SubplangInsertInput": {
+        "type": "object",
+        "properties": {
+          "plang_id": {
+            "type": "number",
+            "example": 12
+          },
+          "lat_long": {
+            "type": "string",
+            "example": "[[16.24,103.25],[16.25,103.26],[16.23,103.27]]"
+          },
+          "center": {
+            "type": "string",
+            "example": "16.24,103.25"
+          },
+          "rai": {
+            "type": "number",
+            "example": 1
+          },
+          "ngan": {
+            "type": "number",
+            "example": 0
+          },
+          "wa": {
+            "type": "number",
+            "example": 50
+          },
+          "detail": {
+            "type": "string",
+            "example": ""
+          }
+        },
+        "required": [
+          "plang_id"
+        ],
+        "xml": {
+          "name": "SubplangInsertInput"
+        }
+      },
+      "SubplangUpdateInput": {
+        "type": "object",
+        "properties": {
+          "lat_long": {
+            "type": "string",
+            "example": "[[16.24,103.25],[16.25,103.26],[16.23,103.27]]"
+          },
+          "center": {
+            "type": "string",
+            "example": "16.24,103.25"
+          },
+          "rai": {
+            "type": "number",
+            "example": 1
+          },
+          "ngan": {
+            "type": "number",
+            "example": 0
+          },
+          "wa": {
+            "type": "number",
+            "example": 50
+          },
+          "detail": {
+            "type": "string",
+            "example": ""
+          }
+        },
+        "xml": {
+          "name": "SubplangUpdateInput"
+        }
+      },
+      "ActivityInsertInput": {
+        "type": "object",
+        "properties": {
+          "plang_id": {
+            "type": "number",
+            "example": 12
+          },
+          "subplang_id": {},
+          "type1": {
+            "type": "string",
+            "example": "ประมงน้ำจืด"
+          },
+          "type2": {
+            "type": "string",
+            "example": "ปลา"
+          },
+          "type3": {
+            "type": "string",
+            "example": "ปลาทับทิม"
+          },
+          "pattern": {
+            "type": "number",
+            "example": 4
+          },
+          "unit": {
+            "type": "string",
+            "example": "ตัว"
+          },
+          "rai": {
+            "type": "number",
+            "example": 0
+          },
+          "ngan": {
+            "type": "number",
+            "example": 0
+          },
+          "wa": {
+            "type": "number",
+            "example": 0
+          },
+          "amount": {
+            "type": "number",
+            "example": 2000
+          },
+          "pond": {
+            "type": "number",
+            "example": 2
+          },
+          "amount_per_pond": {
+            "type": "number",
+            "example": 1000
+          },
+          "start_date": {
+            "type": "string",
+            "example": "2025-06-01"
+          },
+          "end_date": {
+            "type": "string",
+            "example": "2025-10-01"
+          },
+          "detail": {
+            "type": "string",
+            "example": ""
+          }
+        },
+        "required": [
+          "plang_id"
+        ],
+        "xml": {
+          "name": "ActivityInsertInput"
+        }
+      },
+      "ActivityUpdateInput": {
+        "type": "object",
+        "properties": {
+          "type1": {
+            "type": "string",
+            "example": "ประมงน้ำจืด"
+          },
+          "type2": {
+            "type": "string",
+            "example": "ปลา"
+          },
+          "type3": {
+            "type": "string",
+            "example": "ปลาทับทิม"
+          },
+          "pattern": {
+            "type": "number",
+            "example": 4
+          },
+          "unit": {
+            "type": "string",
+            "example": "ตัว"
+          },
+          "rai": {
+            "type": "number",
+            "example": 0
+          },
+          "ngan": {
+            "type": "number",
+            "example": 0
+          },
+          "wa": {
+            "type": "number",
+            "example": 0
+          },
+          "amount": {
+            "type": "number",
+            "example": 2000
+          },
+          "pond": {
+            "type": "number",
+            "example": 2
+          },
+          "amount_per_pond": {
+            "type": "number",
+            "example": 1000
+          },
+          "start_date": {
+            "type": "string",
+            "example": "2025-06-01"
+          },
+          "end_date": {
+            "type": "string",
+            "example": "2025-10-01"
+          },
+          "detail": {
+            "type": "string",
+            "example": ""
+          }
+        },
+        "xml": {
+          "name": "ActivityUpdateInput"
+        }
+      },
+      "DisasterInsertInput": {
+        "type": "object",
+        "properties": {
+          "plang_id": {
+            "type": "number",
+            "example": 12
+          },
+          "category": {
+            "type": "string",
+            "example": "ภัยแล้ง"
+          },
+          "type": {
+            "type": "string",
+            "example": ""
+          },
+          "affect": {
+            "type": "string",
+            "example": "ข้าวเสียหาย"
+          },
+          "start_date": {
+            "type": "string",
+            "example": "2025-03-01"
+          },
+          "end_date": {
+            "type": "string",
+            "example": "2025-04-15"
+          },
+          "size": {
+            "type": "number",
+            "example": 2
+          },
+          "unit": {
+            "type": "string",
+            "example": "ไร่"
+          },
+          "detail": {
+            "type": "string",
+            "example": ""
+          }
+        },
+        "required": [
+          "plang_id"
+        ],
+        "xml": {
+          "name": "DisasterInsertInput"
+        }
+      },
+      "DisasterUpdateInput": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "example": "ภัยแล้ง"
+          },
+          "type": {
+            "type": "string",
+            "example": ""
+          },
+          "affect": {
+            "type": "string",
+            "example": "ข้าวเสียหาย"
+          },
+          "start_date": {
+            "type": "string",
+            "example": "2025-03-01"
+          },
+          "end_date": {
+            "type": "string",
+            "example": "2025-04-15"
+          },
+          "size": {
+            "type": "number",
+            "example": 2
+          },
+          "unit": {
+            "type": "string",
+            "example": "ไร่"
+          },
+          "detail": {
+            "type": "string",
+            "example": ""
+          }
+        },
+        "xml": {
+          "name": "DisasterUpdateInput"
+        }
+      },
+      "AlertInput": {
+        "type": "object",
+        "properties": {
+          "alert_type": {
+            "type": "string",
+            "example": "พืช"
+          },
+          "alert_enddate": {
+            "type": "string",
+            "example": "2025-12-31"
+          },
+          "detail": {
+            "type": "string",
+            "example": "พบเพลี้ยกระโดดในนาข้าว"
+          },
+          "announcement": {
+            "type": "number",
+            "example": 0
+          },
+          "response_to": {
+            "type": "array",
+            "example": [
+              1,
+              2,
+              6
+            ],
+            "items": {
+              "type": "number"
+            }
+          }
+        },
+        "xml": {
+          "name": "AlertInput"
+        }
+      },
+      "CommunityInput": {
+        "type": "object",
+        "properties": {
+          "community_name": {
+            "type": "string",
+            "example": "ชุมชนบ้านดอน"
+          },
+          "head_user": {
+            "type": "string",
+            "example": "username_หัวหน้า"
+          }
+        },
+        "required": [
+          "community_name"
+        ],
+        "xml": {
+          "name": "CommunityInput"
+        }
+      },
+      "FileUpload": {
+        "type": "object",
+        "required": [
+          "file"
+        ],
+        "properties": {
+          "file": {
+            "type": "string",
+            "format": "binary",
+            "description": "ไฟล์รูปภาพ"
+          }
+        }
+      },
+      "PictureUpload": {
+        "type": "object",
+        "required": [
+          "file"
+        ],
+        "properties": {
+          "file": {
+            "type": "string",
+            "format": "binary",
+            "description": "ไฟล์รูปภาพ"
+          },
+          "detail": {
+            "type": "string",
+            "description": "คำอธิบายรูป (ไม่บังคับ)"
+          }
+        }
+      },
+      "AlertInputForm": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "format": "binary",
+            "description": "รูปภาพ (ไม่บังคับ)"
+          },
+          "alert_type": {
+            "type": "string",
+            "example": "พืช"
+          },
+          "alert_enddate": {
+            "type": "string",
+            "example": "2025-12-31"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "announcement": {
+            "type": "integer",
+            "enum": [
+              0,
+              1
+            ]
+          },
+          "response_to": {
+            "type": "string",
+            "example": "[1,2,6]"
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ]
+}

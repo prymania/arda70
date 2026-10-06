@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARDA67 API Update</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: single reading column; endpoint tables scroll inside their own frame */
+:root {
+  --bg: #f6f7f3;
+  --surface: #ffffff;
+  --fg: #1c231f;
+  --muted: #5b665f;
+  --line: #dde2db;
+  --accent: #2c6a4c;
+  --accent-soft: #e3efe8;
+  --get: #2b6cb0;  --post: #2c7a4b;  --put: #a3620f;  --del: #b23a3a;
+  --ok: #2c7a4b;   --warn: #a3620f;  --bad: #b23a3a;
+  --font-body: "IBM Plex Sans Thai", "Noto Sans Thai", "Leelawadee UI", Tahoma, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #131815; --surface: #1b211d; --fg: #e4e9e5; --muted: #9aa69f; --line: #2d3530;
+    --accent: #6fbf95; --accent-soft: #1f3329;
+    --get: #7fb0ea; --post: #73c597; --put: #e0a55a; --del: #ec8585;
+    --ok: #73c597; --warn: #e0a55a; --bad: #ec8585;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #131815; --surface: #1b211d; --fg: #e4e9e5; --muted: #9aa69f; --line: #2d3530;
+  --accent: #6fbf95; --accent-soft: #1f3329;
+  --get: #7fb0ea; --post: #73c597; --put: #e0a55a; --del: #ec8585;
+  --ok: #73c597; --warn: #e0a55a; --bad: #ec8585;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--font-body); font-size: 15.5px; line-height: 1.7;
+  padding-inline: 16px; padding-block: 40px 80px;
+}
+main { max-width: 920px; margin: 0 auto; display: flex; flex-direction: column; gap: 44px; }
+h1, h2, h3 { text-wrap: balance; line-height: 1.3; margin: 0; }
+h1 { font-size: 2rem; font-weight: 700; }
+h2 { font-size: 1.35rem; font-weight: 700; padding-bottom: 8px; border-bottom: 2px solid var(--line); }
+h3 { font-size: 1.05rem; font-weight: 600; }
+p { margin: 0; max-width: 68ch; }
+section { display: flex; flex-direction: column; gap: 16px; }
+.eyebrow { font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+.lede { color: var(--muted); font-size: 1.05rem; }
+header { display: flex; flex-direction: column; gap: 10px; }
+code, .ep { font-family: var(--font-mono); font-size: .86em; }
+code { background: var(--accent-soft); padding: 1px 6px; border-radius: 4px; overflow-wrap: anywhere; }
+ul, ol { margin: 0; padding-left: 1.3em; display: flex; flex-direction: column; gap: 6px; }
+li { max-width: 72ch; }
+a { color: var(--accent); }
+
+.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.card .tag { font-size: .75rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; }
+.card.ok .tag { color: var(--ok); }  .card.warn .tag { color: var(--warn); }  .card.new .tag { color: var(--get); }
+.card p { color: var(--muted); font-size: .94rem; }
+
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-weight: 600; color: var(--muted); font-size: .8rem; letter-spacing: .03em; background: var(--bg); white-space: nowrap; }
+tr:last-child td { border-bottom: none; }
+td.ep { white-space: nowrap; }
+td.note { color: var(--muted); font-size: .85rem; min-width: 180px; }
+.m { display: inline-block; min-width: 54px; font-family: var(--font-mono); font-size: .74rem; font-weight: 500; letter-spacing: .02em; }
+.m.get { color: var(--get); } .m.post { color: var(--post); } .m.put { color: var(--put); } .m.del { color: var(--del); }
+.new-badge { font-family: var(--font-body); font-size: .7rem; font-weight: 600; color: var(--get); border: 1px solid currentColor; border-radius: 4px; padding: 0 5px; margin-left: 6px; }
+.status { font-family: var(--font-mono); font-weight: 500; font-variant-numeric: tabular-nums; }
+.s-ok { color: var(--ok); } .s-warn { color: var(--warn); } .s-bad { color: var(--bad); }
+
+pre { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; overflow-x: auto; font-family: var(--font-mono); font-size: .84rem; line-height: 1.6; }
+.callout { border-left: 3px solid var(--warn); background: var(--surface); padding: 12px 16px; border-radius: 0 8px 8px 0; display: flex; flex-direction: column; gap: 6px; }
+.callout strong { color: var(--warn); }
+.module-list { display: flex; flex-direction: column; gap: 28px; }
+.muted { color: var(--muted); font-size: .85em; }
+.checklist li::marker { content: "☐  "; color: var(--accent); }
+footer { color: var(--muted); font-size: .85rem; border-top: 1px solid var(--line); padding-top: 16px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <span class="eyebrow">Backend → Front end</span>
+    <h1>ARDA67 API: สรุปการเปลี่ยนแปลง</h1>
+    <p class="lede">รอบนี้เน้นแก้ช่องโหว่และ bug ในหลังบ้าน โดยไม่เปลี่ยน URL หรือรูปแบบ response ของ <code>/v1</code> และเพิ่ม <code>/v2</code> สำหรับ 6 module ที่ทำ path ใหม่เป็นแบบ REST ให้ย้ายไปใช้เมื่อพร้อม</p>
+  </header>
+
+  <div class="summary">
+    <div class="card ok">
+      <span class="tag">ไม่ต้องแก้</span>
+      <h3>/v1 ใช้ได้เหมือนเดิม</h3>
+      <p>URL, parameter, ชื่อ field และรูปแบบ <code>{code, result, error}</code> เหมือนเดิมทั้งหมด token เดิมก็ยังใช้ได้</p>
+    </div>
+    <div class="card warn">
+      <span class="tag">ต้องเช็ค</span>
+      <h3>มีกรณีใหม่ที่ได้ 403</h3>
+      <p>แก้หรือลบข้อมูลของคนอื่น และใช้เส้น admin โดยที่ไม่ใช่ admin จะถูกปฏิเสธ ควรเช็คว่า UI แสดงข้อความ error ได้</p>
+    </div>
+    <div class="card new">
+      <span class="tag">ใหม่ (ไม่บังคับ)</span>
+      <h3>/v2 สำหรับ 6 module</h3>
+      <p>plang, subplang, activity, disaster, alert, community ใช้ id ใน path, ตรวจข้อมูลก่อนบันทึก และตอบ HTTP status ตรงกับ code</p>
+    </div>
+  </div>
+
+  <section id="v1">
+    <h2>1. สิ่งที่เปลี่ยนใน /v1</h2>
+
+    <h3>1.1 สิทธิ์แก้ไข/ลบข้อมูล (ใหม่: 403)</h3>
+    <p>เส้นที่เพิ่ม แก้ไข หรือลบข้อมูลในแปลง จะผ่านได้เฉพาะ <strong>เจ้าของแปลง</strong> (หรือเจ้าของ alert) หรือ <strong>ผู้นำชุมชน/เจ้าหน้าที่</strong> คือ role 3, 4, 5, 6, 7 และ admin (9) ที่ได้รับการ approve แล้วเท่านั้น ส่วนการดูข้อมูล (GET) ยังเปิดให้ทุกคนที่ login เหมือนเดิม</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Module</th><th>เส้นที่ตรวจสิทธิ์เจ้าของ</th></tr></thead>
+        <tbody>
+          <tr><td>plang</td><td class="ep"><span class="m put">PUT</span>/v1/plang/plang_id<br><span class="m del">DELETE</span>/v1/plang/plang_id<br><span class="m post">POST</span>/v1/plang/picture/plang_id<br><span class="m del">DELETE</span>/v1/plang/picture_id<br><span class="m post">POST</span>/v1/plang/water_supply · water_source<br><span class="m del">DELETE</span>/v1/plang/water_supply · water_source</td></tr>
+          <tr><td>subplang</td><td class="ep"><span class="m post">POST</span>/v1/subplang/plang_id<br><span class="m put">PUT</span>/v1/subplang/subplang_id<br><span class="m del">DELETE</span>/v1/subplang/subplang_id<br><span class="m post">POST</span>/v1/subplang/picture/subplang_id<br><span class="m del">DELETE</span>/v1/subplang/picture_id</td></tr>
+          <tr><td>activity</td><td class="ep"><span class="m post">POST</span>/v1/activity/plang_id<br><span class="m put">PUT</span>/v1/activity/activity_id<br><span class="m del">DELETE</span>/v1/activity/activity_id<br><span class="m post">POST</span>/v1/activity/picture/activity_id<br><span class="m del">DELETE</span>/v1/activity/picture_id</td></tr>
+          <tr><td>disaster</td><td class="ep"><span class="m post">POST</span>/v1/disaster/plang_id<br><span class="m put">PUT</span>/v1/disaster/disaster_id<br><span class="m del">DELETE</span>/v1/disaster/disaster_id<br><span class="m post">POST</span>/v1/disaster/picture/disaster_id<br><span class="m del">DELETE</span>/v1/disaster/picture_id</td></tr>
+          <tr><td>alert</td><td class="ep"><span class="m put">PUT</span>/v1/alert/alert_id<br><span class="m del">DELETE</span>/v1/alert/alert_id</td></tr>
+          <tr><td>action log</td><td class="ep"><span class="m post">POST</span>/v1/action/log<br><span class="m put">PUT</span>/v1/action/log/:log_id<br><span class="m del">DELETE</span>/v1/action/log/:log_id</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>1.2 เส้นที่จำกัด role</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>เส้น</th><th>ใช้ได้เฉพาะ</th><th>หมายเหตุ</th></tr></thead>
+        <tbody>
+          <tr><td class="ep">/v1/admin/* <span class="muted">(ยกเว้น /roles)</span></td><td>admin (9)</td><td class="note">เดิมทุกคนที่ login เรียกได้ รวมถึง reset password และลบ user คนอื่น  <code>GET /v1/admin/roles</code> ยังเรียกได้ทุกคน</td></tr>
+          <tr><td class="ep"><span class="m del">DELETE</span>/v1/user/username</td><td>admin (9)</td><td class="note">ลบ user อื่น</td></tr>
+          <tr><td class="ep"><span class="m post">POST</span>/v1/user/star_farmer</td><td>role 3 ขึ้นไป</td><td class="note">ตามที่เอกสารเดิมระบุว่า "ต้องเป็นผู้นำเปลี่ยนให้เท่านั้น"</td></tr>
+          <tr><td class="ep"><span class="m post">POST</span><span class="m put">PUT</span><span class="m del">DELETE</span>/v1/action/master<br><span class="m post">POST</span><span class="m del">DELETE</span>/v1/action/flow</td><td>admin (9)</td><td class="note">GET ยังเรียกได้ทุกคน</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>1.3 <code>POST /v1/user/user_detail</code></h3>
+    <ul>
+      <li>เพิ่ม role ตั้งแต่ 3 ขึ้นไปให้ตัวเอง<strong>ไม่ได้แล้ว</strong> (เดิมเกษตรกรตั้งตัวเองเป็น admin ได้) จะได้ 403 พร้อมข้อความ "ไม่สามารถเพิ่ม role … ให้ตัวเองได้" ส่วน role 1 และ 2 ยังเปลี่ยนเองได้ และ role ที่มีอยู่แล้วส่งค่าเดิมกลับมาได้ตามปกติ</li>
+      <li>ค่า <code>star_farmer</code> ที่ส่งมาจะถูกข้าม ถ้าผู้ส่งไม่ใช่ role 3 ขึ้นไป (ให้ใช้ <code>/v1/user/star_farmer</code> แทน)</li>
+      <li>ถ้าไม่ส่ง <code>user_role</code> มา ระบบจะใช้ role เดิม (เดิม request จะ error)</li>
+    </ul>
+
+    <h3>1.4 รูปแบบ error</h3>
+    <ul>
+      <li>error จากฐานข้อมูล: <code>error</code> จะเป็นข้อความ <code>"เกิดข้อผิดพลาดภายในระบบ กรุณาลองใหม่อีกครั้ง"</code> แทน object ของ MySQL เดิม (ที่มี <code>sqlMessage</code>, <code>code</code>) HTTP status ยังเป็น 400 เหมือนเดิม <strong>ถ้าโค้ดฝั่ง front end อ่าน <code>error.sqlMessage</code> หรือ <code>error.code</code> ต้องแก้</strong></li>
+      <li>เรียก URL ที่ไม่มีอยู่ จะได้ JSON <code>{"code":404,…}</code> แทนหน้า HTML</li>
+      <li>header ตอบกลับเปลี่ยนจาก <code>text/json</code> เป็น <code>application/json</code> (axios และ fetch อ่านได้เหมือนเดิม)</li>
+    </ul>
+<pre>// ตัวอย่าง 403
+{ "code": 403, "result": null, "error": "ไม่มีสิทธิ์แก้ไขข้อมูลนี้ (plang: 12)" }</pre>
+
+    <h3>1.5 Bug ที่แก้แล้ว (ไม่ต้องทำอะไร)</h3>
+    <ul>
+      <li><code>GET /v1/action/master</code> ใช้ได้แล้ว (เดิมเส้น <code>/:action_id</code> ดักไว้ก่อน ทำให้ได้ action_id = "master")</li>
+      <li>upload รูป: ระบบจะรอให้เขียนไฟล์เสร็จก่อนบันทึก path ถ้าเขียนไฟล์ไม่สำเร็จจะตอบ error (เดิมตอบสำเร็จแต่ไม่มีไฟล์จริง)</li>
+      <li>register: รอ INSERT เสร็จก่อนออก token</li>
+    </ul>
+  </section>
+
+  <section id="v2">
+    <h2>2. /v2 (ใหม่)</h2>
+    <p><code>/v2</code> มีเฉพาะ plang, subplang, activity, disaster, alert, community ส่วน auth, user, admin, action, forecast และ report ให้ใช้ <code>/v1</code> ต่อไป ใช้ token เดียวกัน (<code>Authorization: Bearer &lt;refreshToken จาก /v1/auth/login&gt;</code>) และ logic หลังบ้านเป็นชุดเดียวกับ v1 ผลลัพธ์จึงเหมือนกัน</p>
+
+    <h3>2.1 HTTP status ตรงกับ code</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>body.code</th><th>HTTP ใน /v1</th><th>HTTP ใน /v2</th><th>ความหมาย</th></tr></thead>
+        <tbody>
+          <tr><td class="status s-ok">200</td><td class="status">200</td><td class="status s-ok">200</td><td>สำเร็จ</td></tr>
+          <tr><td class="status s-ok">204</td><td class="status">200</td><td class="status s-ok">200</td><td>ไม่พบข้อมูล (เหมือนเดิม ดูจาก body.code)</td></tr>
+          <tr><td class="status s-warn">400</td><td class="status">400</td><td class="status s-warn">400</td><td>ข้อมูลไม่ถูกต้อง</td></tr>
+          <tr><td class="status s-warn">401</td><td class="status">401</td><td class="status s-warn">401</td><td>ไม่มี token หรือ token หมดอายุ</td></tr>
+          <tr><td class="status s-warn">403</td><td class="status">403</td><td class="status s-warn">403</td><td>ไม่มีสิทธิ์</td></tr>
+          <tr><td class="status s-warn">404</td><td class="status">404</td><td class="status s-warn">404</td><td>ไม่พบเส้น API</td></tr>
+          <tr><td class="status s-warn">409</td><td class="status">409 <span class="muted">(body.code = 400)</span></td><td class="status s-warn">409</td><td>ข้อมูลซ้ำ</td></tr>
+          <tr><td class="status s-bad">500</td><td class="status">400 <span class="muted">(body.code = 400)</span></td><td class="status s-bad">500</td><td>error ฝั่ง server</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>ถ้าใช้ axios: status ที่ไม่ใช่ 2xx จะเข้า <code>catch</code> ให้อ่านข้อมูลจาก <code>err.response.data</code></p>
+
+    <h3>2.2 ตรวจข้อมูลก่อนบันทึก</h3>
+    <p>v2 ตรวจชนิดข้อมูลก่อนส่งเข้าฐานข้อมูล เช่น id ต้องเป็นตัวเลข, ไร่/งาน/วา ต้องเป็นตัวเลข (ส่งเป็น string ตัวเลขได้), วันที่ต้องอ่านได้ และ parent id ที่จำเป็นต้องส่ง ถ้าไม่ผ่านจะตอบ 400 พร้อมรายการ field ที่ผิดใน <code>result</code></p>
+<pre>{
+  "code": 400,
+  "result": ["body.rai: ต้องเป็นตัวเลข", "body.plang_id: จำเป็นต้องส่งค่านี้"],
+  "error": "ข้อมูลไม่ถูกต้อง"
+}</pre>
+
+    <h3>2.3 เทียบเส้น v1 → v2</h3>
+    <p>ทุกเส้นด้านล่างต้องใช้ token  ใน body ไม่ต้องส่ง id ที่อยู่ใน path ซ้ำ ส่วนชื่อ field อื่นๆ เหมือน v1</p>
+
+    <div class="module-list">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th colspan="2">Plang</th><th>หมายเหตุ</th></tr><tr><th>v1</th><th>v2</th><th></th></tr></thead>
+          <tbody>
+            <tr><td class="ep"><span class="m post">POST</span>/v1/plang/</td><td class="ep"><span class="m post">POST</span>/v2/plang</td><td class="note">body เหมือนเดิม</td></tr>
+            <tr><td class="ep"><span class="m get">GET</span>/v1/plang/?search_…</td><td class="ep"><span class="m get">GET</span>/v2/plang?search_…</td><td class="note">search_username, search_plang_id</td></tr>
+            <tr><td class="ep">–</td><td class="ep"><span class="m get">GET</span>/v2/plang/{plang_id}</td><td class="note">แปลงเดียว</td></tr>
+            <tr><td class="ep"><span class="m put">PUT</span>/v1/plang/plang_id</td><td class="ep"><span class="m put">PUT</span>/v2/plang/{plang_id}</td><td class="note">ไม่ต้องส่ง plang_id ใน body</td></tr>
+            <tr><td class="ep"><span class="m del">DELETE</span>/v1/plang/plang_id?plang_id=</td><td class="ep"><span class="m del">DELETE</span>/v2/plang/{plang_id}</td><td class="note"></td></tr>
+            <tr><td class="ep">–</td><td class="ep"><span class="m get">GET</span>/v2/plang/{plang_id}/count_detail<span class="new-badge">ใหม่</span></td><td class="note">จำนวนปลูกพืช / เลี้ยงสัตว์ / subplang / disaster</td></tr>
+            <tr><td class="ep"><span class="m get">GET</span>/v1/plang/picture/plang_id?plang_id=</td><td class="ep"><span class="m get">GET</span>/v2/plang/{plang_id}/pictures</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m post">POST</span>/v1/plang/picture/plang_id?plang_id=&amp;detail=</td><td class="ep"><span class="m post">POST</span>/v2/plang/{plang_id}/pictures</td><td class="note">multipart: <code>file</code>, <code>detail</code></td></tr>
+            <tr><td class="ep"><span class="m del">DELETE</span>/v1/plang/picture_id?picture_id=</td><td class="ep"><span class="m del">DELETE</span>/v2/plang/pictures/{picture_id}</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m get">GET</span>/v1/plang/water_supply/plang_id?plang_id=</td><td class="ep"><span class="m get">GET</span>/v2/plang/{plang_id}/water_supply</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m post">POST</span>/v1/plang/water_supply</td><td class="ep"><span class="m post">POST</span>/v2/plang/{plang_id}/water_supply</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m del">DELETE</span>/v1/plang/water_supply?wid=</td><td class="ep"><span class="m del">DELETE</span>/v2/plang/water_supply/{wid}</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m get">GET</span>/v1/plang/water_source/plang_id?plang_id=</td><td class="ep"><span class="m get">GET</span>/v2/plang/{plang_id}/water_source</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m post">POST</span>/v1/plang/water_source</td><td class="ep"><span class="m post">POST</span>/v2/plang/{plang_id}/water_source</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m del">DELETE</span>/v1/plang/water_source?wid=</td><td class="ep"><span class="m del">DELETE</span>/v2/plang/water_source/{wid}</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m get">GET</span>/v1/plang/soil_meter/plang_id?search_plang_id=</td><td class="ep"><span class="m get">GET</span>/v2/plang/{plang_id}/soil_meter</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m post">POST</span>/v1/plang/soil_meter/plang_id</td><td class="ep"><span class="m post">POST</span>/v2/plang/{plang_id}/soil_meter</td><td class="note"></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th colspan="2">Subplang</th><th>หมายเหตุ</th></tr><tr><th>v1</th><th>v2</th><th></th></tr></thead>
+          <tbody>
+            <tr><td class="ep"><span class="m post">POST</span>/v1/subplang/plang_id</td><td class="ep"><span class="m post">POST</span>/v2/subplang</td><td class="note">ส่ง <code>plang_id</code> ใน body (บังคับ)</td></tr>
+            <tr><td class="ep"><span class="m get">GET</span>/v1/subplang/?search_…</td><td class="ep"><span class="m get">GET</span>/v2/subplang?search_…</td><td class="note">search_username, search_plang_id, search_subplang_id</td></tr>
+            <tr><td class="ep">–</td><td class="ep"><span class="m get">GET</span>/v2/subplang/{subplang_id}</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m put">PUT</span>/v1/subplang/subplang_id</td><td class="ep"><span class="m put">PUT</span>/v2/subplang/{subplang_id}</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m del">DELETE</span>/v1/subplang/subplang_id?subplang_id=</td><td class="ep"><span class="m del">DELETE</span>/v2/subplang/{subplang_id}</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m get">GET</span>/v1/subplang/count_activity/subplang_id/{id}</td><td class="ep"><span class="m get">GET</span>/v2/subplang/{subplang_id}/count_activity</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m get">GET</span>/v1/subplang/picture/subplang_id?subplang_id=</td><td class="ep"><span class="m get">GET</span>/v2/subplang/{subplang_id}/pictures</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m post">POST</span>/v1/subplang/picture/subplang_id?subplang_id=</td><td class="ep"><span class="m post">POST</span>/v2/subplang/{subplang_id}/pictures</td><td class="note">multipart: <code>file</code>, <code>detail</code></td></tr>
+            <tr><td class="ep"><span class="m del">DELETE</span>/v1/subplang/picture_id?picture_id=</td><td class="ep"><span class="m del">DELETE</span>/v2/subplang/pictures/{picture_id}</td><td class="note"></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th colspan="2">Activity</th><th>หมายเหตุ</th></tr><tr><th>v1</th><th>v2</th><th></th></tr></thead>
+          <tbody>
+            <tr><td class="ep"><span class="m post">POST</span>/v1/activity/plang_id</td><td class="ep"><span class="m post">POST</span>/v2/activity</td><td class="note"><code>plang_id</code> บังคับ, <code>subplang_id</code> ไม่บังคับ</td></tr>
+            <tr><td class="ep"><span class="m get">GET</span>/v1/activity/?search_…</td><td class="ep"><span class="m get">GET</span>/v2/activity?search_…</td><td class="note">search_username, search_plang_id, search_subplang_id, search_activity_id</td></tr>
+            <tr><td class="ep">–</td><td class="ep"><span class="m get">GET</span>/v2/activity/{activity_id}</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m put">PUT</span>/v1/activity/activity_id</td><td class="ep"><span class="m put">PUT</span>/v2/activity/{activity_id}</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m del">DELETE</span>/v1/activity/activity_id?activity_id=</td><td class="ep"><span class="m del">DELETE</span>/v2/activity/{activity_id}</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m get">GET</span>/v1/activity/picture/activity_id?activity_id=</td><td class="ep"><span class="m get">GET</span>/v2/activity/{activity_id}/pictures</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m post">POST</span>/v1/activity/picture/activity_id?activity_id=</td><td class="ep"><span class="m post">POST</span>/v2/activity/{activity_id}/pictures</td><td class="note">multipart: <code>file</code>, <code>detail</code></td></tr>
+            <tr><td class="ep"><span class="m del">DELETE</span>/v1/activity/picture_id?picture_id=</td><td class="ep"><span class="m del">DELETE</span>/v2/activity/pictures/{picture_id}</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m get">GET</span>/v1/activity/master/type1 · type2 · type3</td><td class="ep"><span class="m get">GET</span>/v2/activity/master/type1 · type2 · type3</td><td class="note">query เหมือนเดิม (type1, type2)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th colspan="2">Disaster</th><th>หมายเหตุ</th></tr><tr><th>v1</th><th>v2</th><th></th></tr></thead>
+          <tbody>
+            <tr><td class="ep"><span class="m post">POST</span>/v1/disaster/plang_id</td><td class="ep"><span class="m post">POST</span>/v2/disaster</td><td class="note"><code>plang_id</code> ใน body (บังคับ)</td></tr>
+            <tr><td class="ep"><span class="m get">GET</span>/v1/disaster/?search_…</td><td class="ep"><span class="m get">GET</span>/v2/disaster?search_…</td><td class="note">search_username, search_plang_id, search_disaster_id</td></tr>
+            <tr><td class="ep">–</td><td class="ep"><span class="m get">GET</span>/v2/disaster/{disaster_id}</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m put">PUT</span>/v1/disaster/disaster_id</td><td class="ep"><span class="m put">PUT</span>/v2/disaster/{disaster_id}</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m del">DELETE</span>/v1/disaster/disaster_id?disaster_id=</td><td class="ep"><span class="m del">DELETE</span>/v2/disaster/{disaster_id}</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m get">GET</span>/v1/disaster/picture/disaster_id?disaster_id=</td><td class="ep"><span class="m get">GET</span>/v2/disaster/{disaster_id}/pictures</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m post">POST</span>/v1/disaster/picture/disaster_id?disaster_id=</td><td class="ep"><span class="m post">POST</span>/v2/disaster/{disaster_id}/pictures</td><td class="note">multipart: <code>file</code>, <code>detail</code></td></tr>
+            <tr><td class="ep"><span class="m del">DELETE</span>/v1/disaster/picture_id?picture_id=</td><td class="ep"><span class="m del">DELETE</span>/v2/disaster/pictures/{picture_id}</td><td class="note"></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th colspan="2">Alert</th><th>หมายเหตุ</th></tr><tr><th>v1</th><th>v2</th><th></th></tr></thead>
+          <tbody>
+            <tr><td class="ep"><span class="m post">POST</span>/v1/alert/?alert_type=&amp;…</td><td class="ep"><span class="m post">POST</span>/v2/alert</td><td class="note">ส่ง field ใน body ได้ (multipart พร้อม <code>file</code> หรือ JSON) <code>response_to</code> ส่งเป็น array ได้</td></tr>
+            <tr><td class="ep"><span class="m get">GET</span>/v1/alert/</td><td class="ep"><span class="m get">GET</span>/v2/alert</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m get">GET</span>/v1/alert/announcement</td><td class="ep"><span class="m get">GET</span>/v2/alert/announcement</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m get">GET</span>/v1/alert/officer</td><td class="ep"><span class="m get">GET</span>/v2/alert/officer</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m get">GET</span>/v1/alert/response/alert_id?alert_id=</td><td class="ep"><span class="m get">GET</span>/v2/alert/{alert_id}/responses</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m put">PUT</span>/v1/alert/alert_id?alert_id=&amp;…</td><td class="ep"><span class="m put">PUT</span>/v2/alert/{alert_id}</td><td class="note">field ใน body เหมือน POST</td></tr>
+            <tr><td class="ep"><span class="m del">DELETE</span>/v1/alert/alert_id?alert_id=</td><td class="ep"><span class="m del">DELETE</span>/v2/alert/{alert_id}</td><td class="note"></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th colspan="2">Community</th><th>หมายเหตุ</th></tr><tr><th>v1</th><th>v2</th><th></th></tr></thead>
+          <tbody>
+            <tr><td class="ep"><span class="m post">POST</span>/v1/community/?community_name=&amp;head_user=</td><td class="ep"><span class="m post">POST</span>/v2/community</td><td class="note">JSON body: <code>community_name</code> (บังคับ), <code>head_user</code></td></tr>
+            <tr><td class="ep"><span class="m get">GET</span>/v1/community/community_id?community_id=</td><td class="ep"><span class="m get">GET</span>/v2/community/{community_id}</td><td class="note"></td></tr>
+            <tr><td class="ep"><span class="m get">GET</span>/v1/community/member/community_id?community_id=</td><td class="ep"><span class="m get">GET</span>/v2/community/{community_id}/members</td><td class="note"></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="unchanged">
+    <h2>3. สิ่งที่ยังไม่เปลี่ยน</h2>
+    <ul>
+      <li>login, register และ token: ยังใช้ <code>refreshToken</code> จาก <code>/v1/auth/login</code> เป็น Bearer token เหมือนเดิม และอายุ token ยังเป็น 100 วัน (การทำ access/refresh token แยกกันจะคุยกันอีกรอบ เพราะฝั่ง front end ต้องทำ flow ขอ token ใหม่)</li>
+      <li>ชื่อ field ใน <code>result</code> ของทุกเส้นเหมือนเดิม</li>
+      <li>สำหรับ "ไม่พบข้อมูล" ยังตอบ HTTP 200 พร้อม <code>code: 204</code> ทั้ง v1 และ v2</li>
+      <li>เอกสาร API อยู่ที่ <code>/docs</code> เหมือนเดิม ตอนนี้กดปุ่ม <strong>Authorize</strong> แล้วใส่ token ครั้งเดียวก็ทดสอบได้ทุกเส้น และค้นหาเส้นด้วยช่อง filter ได้</li>
+    </ul>
+  </section>
+
+  <section id="checklist">
+    <h2>4. Checklist สำหรับทีม front end</h2>
+    <ul class="checklist">
+      <li>หน้าแก้ไข/ลบข้อมูลแปลง แสดงข้อความเมื่อได้ <code>code: 403</code></li>
+      <li>มีหน้าไหนที่ role อื่นนอกจาก admin เรียก <code>/v1/admin/…</code> หรือไม่ (นอกจาก <code>/roles</code>) ถ้ามี แจ้ง backend ให้เปิดสิทธิ์</li>
+      <li>หน้าแก้ไขโปรไฟล์ส่ง <code>user_role</code> เป็น role เดิมของ user (ไม่เพิ่ม role ใหม่ตั้งแต่ 3 ขึ้นไป)</li>
+      <li>ไม่มีโค้ดอ่าน <code>error.sqlMessage</code> หรือ <code>error.code</code> จาก response</li>
+      <li>ถ้ามีอุปกรณ์หรือบัญชีกลางที่ส่ง soil meter แทนเกษตรกร: ตอนนี้ยังไม่ตรวจสิทธิ์เส้นนี้ แจ้ง backend ถ้าควรตรวจ</li>
+      <li>ทดลองย้ายไป <code>/v2</code> ทีละ module ได้เลย (ใช้คู่กับ <code>/v1</code> ได้)</li>
+    </ul>
+  </section>
+
+  <footer>ARDA67 backend · branch developer_v1 · ตาราง endpoint ตรงกับ /docs ที่ generate ใหม่</footer>
+</main>
+</body>
+</html>

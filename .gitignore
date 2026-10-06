@@ -1,0 +1,20 @@
+# dependencies
+node_modules/
+
+# environment / secrets
+.env
+.env.*
+!.env.example
+settings.json
+server/ssl/
+
+# runtime output
+logs/
+var/
+uploads/
+*.log
+
+# editor / OS
+.vscode/settings.json
+.DS_Store
+Thumbs.db

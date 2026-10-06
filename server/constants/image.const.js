@@ -1,0 +1,1 @@
+export const UPLOAD_IMAGE_FOLDER=process.env.UPLOAD_IMAGE_FOLDER;

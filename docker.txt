@@ -1,0 +1,16 @@
+FROM node
+
+WORKDIR /app
+ARG CACHEBUST=1
+# ส่ง token ตอน build: docker build --build-arg GITHUB_TOKEN=xxxx .
+# ห้ามเขียน token ลงไฟล์นี้ตรง ๆ
+ARG GITHUB_TOKEN
+RUN git clone -b developer https://prymania:${GITHUB_TOKEN}@github.com/prymania/arda67.git .
+
+RUN npm install --omit=dev
+
+COPY ./ ./
+
+EXPOSE 9967
+
+CMD ["node", "index.js"]
